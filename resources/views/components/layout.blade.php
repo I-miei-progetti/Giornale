@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite(['resources/css/app.css','resources/js/app.js'])
     <title>Al Volante</title>
+    <link rel="icon" href="" type="image/x-icon">
+
 </head>
 <body>
     <x-navbar/>
