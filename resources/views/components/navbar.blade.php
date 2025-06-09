@@ -50,6 +50,10 @@
                         </form>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('article.create') }}">Inserisci un articolo</a> 
+
+                </li>
             @endauth
             @guest
                 <li class="nav-item dropdown">
