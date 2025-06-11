@@ -9,7 +9,8 @@
     <div class="container my-5">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8">
-                <form action="{{route('article.store')}}" method="POST" class="card p-5 shadow" enctype="multipart/form-data">
+                <form action="{{ route('article.store') }}" method="POST" class="card p-5 shadow"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="title" class="form-label">Titolo</label>
@@ -40,22 +41,23 @@
                             <option selected disabled>Seleziona una categoria </option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforach
+                            @endforeach
                         </select>
+
                         @error('category')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="body"class="form-control" id="body" cols="30"
-                            rows="7">{{ old('body') }}</textarea>
-                            @error('body')
-                                <span class="text-danger">{{ $message }}</sman>
-                                @enderror
+                        <label for="body" class="form-label">Testo articolo</label>
+                        <textarea name="body" id="body" class="form-control" cols="30" rows="7">{{ old('body') }}</textarea>
+                        @error('body')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
-                    <div class="mt-3 d-flex justify-content-cente flex-column align-iteam-center">
-                        <button type="submit"class="btn btn-outline-secondary">Inserisci articolo</button>
-                        <a href="{{ rourte('homepage') }}" class="text-secondary mt-2">Torna alla home</a>
+                    <div class="mt-3 d-flex justify-content-center flex-column align-items-center">
+                        <button type="submit" class="btn btn-outline-secondary">Inserisci articolo</button>
+                        <a href="{{ route('homepage') }}" class="text-secondary mt-2">Torna alla home</a>
                     </div>
                 </form>
             </div>

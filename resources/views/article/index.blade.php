@@ -2,17 +2,10 @@
     <div class="container-fluid p-5 bg-secondary-subtle text-center">
         <div class="row justify-content-cente ">
             <div class="col-12">
-                <h1 class="display-1">Al Volante</h1>
+                <h1 class="display-1">Tutti gli articoli</h1>
             </div>
         </div>
     </div>
-    <x-carousel />
-    @if (session('message'))
-        <div class="aler alert-success">
-            {{ session('message') }}
-        </div>
-    @endif
-
     <div class="container my-5">
         <div class="row justify-content-envely">
             @foreach ($articles as $article)
@@ -26,18 +19,18 @@
                             <p class="small text-muted"> Categoria:
                                 <a href="{{ route('article.byCategory', $article->category) }}"
                                     class="text-capitalize text-muted">{{ $article->category->name }}</a>
-                            </p>
 
                         </div>
                         <div class="card-footer d-flex justify-content-between align-iteam-center">
-                            <p>Redatto il {{ $article->created_at->format('d/m/Y') }} <br> 
-                             @if($article->user)
+                            <p>Redatto il {{ $article->created_at->format('d/m/Y') }} <br>
+                                @if($article->user)
                                     da <a href="{{ route('article.byUser', ['user' => $article->user->id]) }}"
                                         class="text-capitalize text-muted">{{ $article->user->name }}
                                     </a>
                                 @else
                                     <span class="text-muted">Autore sconosciuto</span>
                                 @endif
+                            </p>
                             <a href="{{ route('article.show', $article) }}" class="btn btn-outline-secondary">Leggi</a>
                         </div>
                     </div>

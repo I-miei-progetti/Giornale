@@ -1,24 +1,27 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
-class ArticleController extends Controller implements HasMiddleware 
+class ArticleController extends Controller implements HasMiddleware
 {
-    public static function middleware() {
+    public static function middleware()
+    {
         return [
-            new Middleware('auth',except: ['index','show']),
+            new Middleware('auth', except: ['index', 'show','byCategory', 'byUser']),
         ];
     }
 
-    
     public function index()
     {
-        //
+        $articles = Article::orderBy('created_at', 'desc')->get();
+        return view('article.index', compact('articles'));
     }
 
     /**
@@ -26,7 +29,7 @@ class ArticleController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        return view('aericle.create');
+        return view('article.create');
     }
 
     /**
@@ -37,7 +40,7 @@ class ArticleController extends Controller implements HasMiddleware
         $request->validate([
             'title'    => 'required|unique:articles|min:5',
             'subtitle' => 'required|min:5',
-            'body'     => 'required|image',
+            'body'     => 'required|min:10',
             'image'    => 'required|image',
             'category' => 'required',
         ]);
@@ -48,9 +51,9 @@ class ArticleController extends Controller implements HasMiddleware
             'body'        => $request->body,
             'image'       => $request->file('image')->store('images', 'public'),
             'category_id' => $request->category,
-            'uder_id'     => Auth::user()->id
+            'user_id'     => Auth::user()->id,
         ]);
-        return redirect(route ('homepage'))->with('message','Articolo crato con successo');
+        return redirect(route('homepage'))->with('message', 'Articolo crato con successo');
     }
 
     /**
@@ -58,7 +61,7 @@ class ArticleController extends Controller implements HasMiddleware
      */
     public function show(Article $article)
     {
-        //
+        return view('article.show', compact('article'));
     }
 
     /**
@@ -83,5 +86,17 @@ class ArticleController extends Controller implements HasMiddleware
     public function destroy(Article $article)
     {
         //
+    }
+
+    public function byCategory(Category $category)
+    {
+        $articles = $category->articles()->orderBy('created_at', 'desc')->get();
+    return view('article.by-category', compact('category', 'articles'));
+    }
+
+    public function byUser(User $user)
+    {
+        $articles = $user->articles()->orderBy('created_at', 'desc')->get();
+    return view('article.by-user', compact('user', 'articles'));
     }
 }

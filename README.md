@@ -1,3 +1,13 @@
 [X] CREAZIONE MODELLI CATEGORY E ARTICLE, RELAZIONI pg 16
 [X]CREAZIONE DEGLI ARTICOLI pg 20
-[]User story pg 26
+[x]User story pg 26
+[X]ARTICLE SHOW pg28
+[X]FILTRO PER CATEGORIA pg31
+[ ]FILTRO PER REDATTORE pg32
+
+psw prova 1 prova1@prova.it
+provami123
+
+
+prova2@prova2.it
+provami123
