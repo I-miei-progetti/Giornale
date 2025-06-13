@@ -54,7 +54,7 @@
   
             <ul class="list-unstyled mb-0">
               <li>
-                <a href="#!" class="text-dark">Link 1</a>
+                <a href="{{route('careers')}}" class="text-dark" aria-current="page">Lavora con noi</a>
               </li>
               <li>
                 <a href="#!" class="text-dark">Link 2</a>

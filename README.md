@@ -3,7 +3,17 @@
 [x]User story pg 26
 [X]ARTICLE SHOW pg28
 [X]FILTRO PER CATEGORIA pg31
-[ ]FILTRO PER REDATTORE pg32
+[X]FILTRO PER REDATTORE pg32
+[X]FORM PER L’UTENTE E INVIO MAIL pg34
+[ ]Settare il .env per la mail pg39
+
+
+
+
+
+
+
+
 
 psw prova 1 prova1@prova.it
 provami123
