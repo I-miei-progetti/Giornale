@@ -1,22 +1,36 @@
-
-
-
-
-.logo{
-    height: 45px;
+body {
+    padding-top: 65px;
 }
 
+.logo {
+    height: 45px;
+    border-radius: 50%;
+    /* transition: 0.9s; */
+}
+.logo:hover {
+    background-color: yellow;
+    border: 2px solid rgb(255, 234, 0);
+    cursor: pointer;
+}
 
+a:hover {
+   color: yellow !important;
+    cursor: pointer !important;
+}
 
- /* carousel*/
- 
-    html,
-    body {
-      position: relative;
-      height: 100%;
-    }
+.navbar {
+    background-color: #f31212;
+}
 
-    /* body {
+/* carousel*/
+
+html,
+body {
+    position: relative;
+    height: 100%;
+}
+
+/* body {
       background: #000;
       font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
       font-size: 14px;
@@ -25,42 +39,40 @@
       padding: 0;
     } */
 
-    .swiper {
-      width: 100%;
-      height: 100%;
-      background: #000;
-    }
+/* Swiper piccolo e affiancato */
+.swiper {
+    width: 100%; /* piena larghezza del contenitore genitore */
+    max-width: 700px; /* opzionale: limita larghezza massima */
+    height: 250px; /* puoi adattare altezza o usare altezza relativa */
+    border-radius: 8px;
+    overflow: hidden;
+}
 
-    .swiper-slide {
-      font-size: 18px;
-      color: #fff;
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      padding: 40px 60px;
-    }
+.swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-    .parallax-bg {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 130%;
-      height: 100%;
-      -webkit-background-size: cover;
-      background-size: cover;
-      background-position: center;
-    }
+/* Slide */
+.swiper {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    flex: 1; /* <-- Si espande per riempire lo spazio disponibile accanto al logo */
+    min-width: 300px; /* Imposta una larghezza minima */
+}
 
-    .swiper-slide .title {
-      font-size: 41px;
-      font-weight: 300;
-    }
+.swiper-wrapper,
+.swiper-slide {
+    width: 100%;
+    height: 100%;
+}
 
-    .swiper-slide .subtitle {
-      font-size: 21px;
-    }
-
-    .swiper-slide .text {
-      font-size: 14px;
-      max-width: 400px;
-      line-height: 1.3;
-    }
+.swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Riempie senza distorsione */
+}

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg fixed-top">
     <div class="container-fluid">
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
@@ -9,7 +9,7 @@
             <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{{ route('homepage') }}">
-                        <img src="/image/logo.png" class="logo" alt=""> 
+                        <img src="/image/steering-wheel.png" class="logo" alt="">  
                     </a>
                 </li>
                 <li class="nav-item mt-2">
@@ -56,8 +56,8 @@
             @endauth
             @guest
                  <ul class="nav-item dropdown mt-2 ps-2">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">Benvenuto</a>
+                    <a class="nav-link " href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false"><img src="image/racer.png" class="logo" alt=""></a>
                     <ul class="dropdown-menu ">
                         <li>
                             <a class="dropdown-item" href="{{ route('register') }}">Registrati</a>

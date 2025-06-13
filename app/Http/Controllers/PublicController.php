@@ -8,6 +8,8 @@ use Illuminate\Routing\Controllers\Middleware;
 
 class PublicController extends Controller implements HasMiddleware
 {
+    protected $redirectTo = '/';
+
     public function homepage()
     {
         $articles = Article::orderBY('created_at', 'desc')->take(4)->get();
@@ -22,7 +24,7 @@ class PublicController extends Controller implements HasMiddleware
     public static function middleware()
     {
         return [
-            new Middleware('auth', except: ['homapege']),
+            new Middleware('auth', except: ['homepage']),
         ];
     }
 

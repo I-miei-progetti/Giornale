@@ -1,12 +1,24 @@
 <x-layout>
-    <div class="container-fluid p-5 bg-secondary-subtle text-center">
-        <div class="row justify-content-cente ">
-            <div class="col-12">
-                <h1 class="display-1">Al Volante</h1>
+    <div class="d-flex align-items-start gap-4 p-4 flex-wrap" style="width: 100%;">
+        <!-- Colonna sinistra: logo + immagini -->
+        <div class="d-flex flex-column align-items-center" style="min-width: 200px;">
+            <!-- Logo -->
+            <img src="/image/logo_scritto.png" alt="Logo" class="img-fluid mb-3" style="max-width: 180px;">
+
+            <!-- Immagini sotto il logo -->
+            <div class="d-flex flex-column gap-2 align-items-center">
+                <img src="/image/img1.jpg" alt="img1" class="mini-img">
+                <img src="/image/img2.jpg" alt="img2" class="mini-img">
+                <img src="/image/img3.jpg" alt="img3" class="mini-img">
             </div>
+
+        </div>
+        <div class="col-md-6">
+            <x-carousel />
         </div>
     </div>
-    <x-carousel />
+
+
     @if (session('message'))
         <div class="aler alert-success">
             {{ session('message') }}
@@ -30,15 +42,16 @@
 
                         </div>
                         <div class="card-footer d-flex justify-content-between align-iteam-center">
-                            <p>Redatto il {{ $article->created_at->format('d/m/Y') }} <br> 
-                             @if($article->user)
+                            <p>Redatto il {{ $article->created_at->format('d/m/Y') }} <br>
+                                @if ($article->user)
                                     da <a href="{{ route('article.byUser', ['user' => $article->user->id]) }}"
                                         class="text-capitalize text-muted">{{ $article->user->name }}
                                     </a>
                                 @else
                                     <span class="text-muted">Autore sconosciuto</span>
                                 @endif
-                            <a href="{{ route('article.show', $article) }}" class="btn btn-outline-secondary">Leggi</a>
+                                <a href="{{ route('article.show', $article) }}"
+                                    class="btn btn-outline-secondary">Leggi</a>
                         </div>
                     </div>
                 </div>
