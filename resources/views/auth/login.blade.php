@@ -29,8 +29,8 @@
                     </div>
 
                     <div class="mb-3 d-flex justify-content-center fle-column align-iteams-center">
-                        <button type="submit" class="btn btn-outline-secondary">Registrati</button>
-                        <p class="mt-2">Non sei registrato? <a href="{{ route('register') }}"
+                        <button type="submit" class="btn btn-outline-secondary">Accedi</button>
+                        <p class="mt-2 ms-2">Non sei registrato? <a href="{{ route('register') }}"
                                 class="text-secondary">Clicca qui</a></p>
                     </div>
 

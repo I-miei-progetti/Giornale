@@ -12,7 +12,7 @@ class CareerRequestMail extends Mailable
     use Queueable, SerializesModels;
     public $info;
 
-    public function __construct()
+    public function __construct($info)
     {
         $this->info=$info;
     }

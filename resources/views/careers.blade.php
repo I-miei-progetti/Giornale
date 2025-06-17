@@ -13,7 +13,7 @@
                     @csrf
                     <div class="mb-3">
                         <label for="role" class="form-label">Per quale ruolo ti stai candidando?</label>
-                        <select name="role" id="role" class="role-control">
+                        <select name="role" id="role" class="form-control">
                             <option value="" selected disabled>Seleziona un ruolo</option>
                             @if (!Auth::user()->is_admin)
                                 <option value="admin">Amministratore</option>

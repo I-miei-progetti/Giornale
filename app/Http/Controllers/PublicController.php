@@ -43,7 +43,7 @@ $user =Auth::user();
 $role=$request->role;
 $email=$request->email;
 $message =$request->message;
-$info =compact ('role','email','message');
+$info = compact ('role','email','message');
 
 Mail::to('admin@alvolante.com')->send(new CareerRequestMail($info));
 
@@ -53,7 +53,7 @@ case 'admin':
     $user->is_admin =NULL;
     break;
 
-    case 'revisor';
+    case 'revisor':
     $user->is_revisor =NULL;
     break;
 
