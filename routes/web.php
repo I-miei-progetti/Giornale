@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 Route::controller(PublicController::class)->group(function () {
     Route::get('/', 'homepage')->name('homepage');
     Route::get('/careers', 'careers')->name('careers');
-    Route::post('careers/submit')->name('careers.submit');
+     Route::post('/careers/submit', 'careersSubmit')->name('careers.submit');
 });
 
 // Rotte articoli
