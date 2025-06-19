@@ -42,4 +42,17 @@ class CareerRequestMail extends Mailable
     {
         return [];
     }
+
+    public function build()
+{
+    return $this->view('mail.career-request-mail')
+        ->with(['info' => $this->info])
+        ->attach(public_path('image/logo_scritto.png'), [
+            'as' => 'logo.png',
+            'mime' => 'image/png',
+        ])
+        ->withSwiftMessage(function ($message) {
+            $message->embed(public_path('image/logo_scritto.png'));
+        });
+}
 }

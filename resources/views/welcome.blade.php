@@ -1,9 +1,18 @@
 <x-layout>
     @if (session('message'))
-        <div class="alert alert-success">
+        <div id="success-message" class="alert alert-success" style="position: relative;background-color:rgb(221, 255, 0);">
             {{ session('message') }}
-            <button> X </button>
+            <button onclick="closeMessage()" style=" top:5px; right:10px; font-size:16px; cursor:pointer; background-color:red;"> &times; </button>
         </div>
+
+         <script>
+        function closeMessage(){
+            var msg=document.getElementById('success-message');
+             if(msg){
+                msg.style.display= "none";
+             }
+        }
+    </script> 
     @endif
     <div class="container-fluid py-4">
         <div class="row g-4">
@@ -81,5 +90,6 @@
         </div>
     </div>
 
+   
 
 </x-layout>

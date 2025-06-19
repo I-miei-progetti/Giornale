@@ -10,6 +10,6 @@
     <p>Ricevuta da {{$info['email']}}</p>
     <h4>Messaggio:</h4>
     <p>{{$info['message']}}</p>
-    <img src="/image/logo scritto.png" class="logo" alt=""> 
+    <img src="{{ $message->embed(public_path('image/logo_scritto.png')) }}" class="logo" alt="">
 </body>
 </html>
