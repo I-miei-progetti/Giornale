@@ -21,7 +21,7 @@ class PublicController extends Controller implements HasMiddleware
 
     public function careers()
     {
-        return view('careers');
+        return view('careers'); 
     }
 
     public static function middleware()
@@ -39,26 +39,26 @@ class PublicController extends Controller implements HasMiddleware
             'message' => 'required',
         ]);
 
-$user =Auth::user();
+$user = Auth::user();
 $role=$request->role;
 $email=$request->email;
 $message =$request->message;
-$info = compact ('role','email','message');
+$info = compact ('role', 'email', 'message');
 
 Mail::to('admin@alvolante.com')->send(new CareerRequestMail($info));
 
 switch ($role){
 
 case 'admin':
-    $user->is_admin =NULL;
+    $user->is_admin = NULL;
     break;
 
     case 'revisor':
-    $user->is_revisor =NULL;
+    $user->is_revisor = NULL;
     break;
 
     case 'writer':
-        $user->is_writer =NULL;
+        $user->is_writer = NULL;
         break;
 }
 $user->update();

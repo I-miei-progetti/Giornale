@@ -13,7 +13,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Card title</h5>
                             <p class="card-text">Some quick example text...</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <a href="#" class="btn ">Go somewhere</a>
                         </div>
                     </div>
 
@@ -22,7 +22,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Card title</h5>
                             <p class="card-text">Some quick example text...</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <a href="#" class="btn ">Go somewhere</a>
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                                         <span class="text-muted">Autore sconosciuto</span>
                                     @endif
                                     <a href="{{ route('article.show', $article) }}"
-                                        class="btn btn-outline-secondary">Leggi</a>
+                                        class="btn ">Leggi</a>
                             </div>
                         </div>
                     </div>

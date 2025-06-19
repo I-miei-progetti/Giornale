@@ -18,6 +18,19 @@ a:hover {
     cursor: pointer !important;
 }
 
+.btn{
+color: black;
+    cursor: pointer;
+    border-color: black;
+}
+.btn:hover {
+   color: yellow;
+    cursor: pointer ;
+    border-color: black;
+    background-color: black;
+    transition: 0.5s;
+}
+
 .navbar {
     background-color: #f31212;
 }

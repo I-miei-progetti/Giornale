@@ -70,8 +70,8 @@
                 </ul>
             @endguest
             <form class="d-flex me-2" role="search">
-                <input class="form-control pe-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Cerca</button>
+                <input class="form-control pe-2 ms-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn ms-1" type="submit">Cerca</button>
             </form>
         </div>
     </div>
