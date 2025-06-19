@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PublicController;
+use App\Http\Controllers\ArticleController;
 
 // Rotte pubbliche
 Route::controller(PublicController::class)->group(function () {
@@ -20,4 +21,8 @@ Route::prefix('article')->controller(ArticleController::class)->group(function (
     Route::get('/category/{category}', 'byCategory')->name('article.byCategory');
 
     Route::get('/user/{user}', 'byUser')->name('article.byUser');
+});
+
+Route::middleware('admin')->group(function(){
+  Route::get('/admin/dashboard', [AdminController::class,'dashboard'])->name('admin.dashboard');
 });

@@ -1,6 +1,6 @@
 <x-layout>
     @if (session('message'))
-        <div id="success-message" class="alert alert-success" style="position: relative;background-color:rgb(221, 255, 0);">
+        <div id="success-message" class="alert alert-success" style="position: relative;background-color:rgba(255, 247, 0, 0.908);">
             {{ session('message') }}
             <button onclick="closeMessage()" style=" top:5px; right:10px; font-size:16px; cursor:pointer; background-color:red;"> &times; </button>
         </div>
@@ -14,6 +14,24 @@
         }
     </script> 
     @endif
+
+    @if (session('alert'))
+    <div id="alert-message" class="alert alert-danger" style="position: relative;background-color:rgba(255, 247, 0, 0.908;">
+        {{ session('alert')}}
+        <button onclick="closeMessage()" style=" top:5px; right:10px; font-size:16px; cursor:pointer; background-color:red;"> &times; </button>
+    </div>
+    <script>
+        function closeMessage(){
+            var msg=document.getElementById('alert-message');
+             if(msg){
+                msg.style.display= "none";
+             }
+        }
+    </script> 
+    @endif
+
+
+
     <div class="container-fluid py-4">
         <div class="row g-4">
             <!-- Colonna sinistra: logo + cards -->
