@@ -5,8 +5,8 @@
 [X]FILTRO PER CATEGORIA pg31
 [X]FILTRO PER REDATTORE pg32
 [X]FORM PER L’UTENTE E INVIO MAIL pg34
-[ ]Settare il .env per la mail pg39 - NON FUNZIONA L'INVIO DELLA MAIL
-
+[ ]Settare il .env per la mail pg39 -  FUNZIONA in parte -FARE Bottone in welcame per chiudere messaggio 
+[ ]ADMIN DASHBOARD pg 42
 
 
 
