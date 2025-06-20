@@ -7,7 +7,8 @@
 [X]FORM PER L’UTENTE E INVIO MAIL pg34
 [X]Settare il .env per la mail pg39 
 [X]ADMIN DASHBOARD pg 42
-[ ]Adesso creiamo resources/views pg 45
+[X]Adesso creiamo resources/views pg 45
+[ ]in articles-table.blade.php, dove inseriamo una tabella pg 54
 
 
 

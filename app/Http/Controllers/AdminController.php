@@ -9,7 +9,7 @@ class AdminController extends Controller
     {
         $adminRequests   = User::where('is_admin', null)->get();
         $revisorRequests = User::where('is_revisor', null)->get();
-        $writeRequests   = User::where('is_write', null)->get();
+        $writeRequests   = User::where('is_writer', null)->get();
         return view('admin.dashboard', compact('adminRequests', 'revisorRequests', 'writeRequests'));
 
     }
@@ -25,7 +25,7 @@ class AdminController extends Controller
     {
         $user->is_revisor = true;
         $user->save();
-        return rediurect(role('admin.dashboard'))->with('message', "Hai reso $user->name revisore");
+        return redirect(route('admin.dashboard'))->with('message', "Hai reso $user->name revisore");
     }
 
     public function setWriter(User $user)

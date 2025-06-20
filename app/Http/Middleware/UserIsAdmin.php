@@ -13,8 +13,8 @@ class UserIsAdmin
     public function handle(Request $request, Closure $next): Response
     {
         if(Auth::user()&& Auth::user()->is_admin){
-            return $next ($request);
+            return $next($request);
         }
-        return redirect (route('homeage'))->with('alert', 'Non sei autorizzato');
+        return redirect (route('homepage'))->with('alert', 'Non sei autorizzato');
     }
 }

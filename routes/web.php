@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\RevisorController;
 
 // Rotte pubbliche
 Route::controller(PublicController::class)->group(function () {
@@ -28,4 +29,8 @@ Route::middleware('admin')->group(function(){
   Route::get('/admin/{user}/set-admin', [AdminController::class, 'setAdmin'])->name('admin.setAdmin');
   Route::get('/admin/{user}/set-revisor', [AdminController::class, 'setRevisor'])->name('admin.setRevisor');
   Route::get('/admin/{user}/set-writer', [AdminController::class, 'setWriter'])->name('admin.setWriter');
+});
+
+Route::middleware('revisor')->group(function(){
+  Route::get('/revisor/dashboard',[RevisorController::class,'dashboard'])->name('revisor.dashboard');
 });

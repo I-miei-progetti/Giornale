@@ -70,13 +70,13 @@
 
 
     @if (session('message'))
-        <div class="aler alert-success">
+        <div class="alert alert-success">
             {{ session('message') }}
         </div>
     @endif
 
     <div class="container my-5">
-        <div class="row justify-content-envely">
+        <div class="row justify-content-enenly">
             @foreach ($articles as $article)
                 <div class="col-12 col-md-3 mb-4 d-flex justify-content-center">
                     <div class="card" style="width: 18rem;">
@@ -91,7 +91,7 @@
                             </p>
 
                         </div>
-                        <div class="card-footer d-flex justify-content-between align-iteam-center">
+                        <div class="card-footer d-flex justify-content-between align-items-center">
                             <p>Redatto il {{ $article->created_at->format('d/m/Y') }} <br>
                                 @if ($article->user)
                                     da <a href="{{ route('article.byUser', ['user' => $article->user->id]) }}"

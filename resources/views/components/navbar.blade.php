@@ -65,7 +65,8 @@
                         <li>
                             <a class="dropdown-item" href="{{ route('login') }}">Accedi</a>
                         </li>
-                        @if (Auth::user()->is_admin)
+                        @if (Auth::user()?->is_admin) {{-- AGGIUNTO IL ? (operatore nullsafe) ALTRIMENTI NON FUNZIONAVA--}}
+                        
                         <li>
                             <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a>
                         </li>
@@ -73,6 +74,7 @@
                     </ul>
                 </ul>
             @endguest
+            
             <form class="d-flex me-2" role="search">
                 <input class="form-control pe-2 ms-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn ms-1" type="submit">Cerca</button>
