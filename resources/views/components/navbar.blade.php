@@ -9,7 +9,7 @@
             <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{{ route('homepage') }}">
-                        <img src="/image/steering-wheel.png" class="logo" alt="">  
+                        <img src="/image/steering-wheel.png" class="logo" alt="">
                     </a>
                 </li>
                 <li class="nav-item mt-2">
@@ -36,7 +36,7 @@
             </ul>
 
             @auth
-            
+
                 <ul class="nav-item dropdown mt-2">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -52,12 +52,12 @@
                         </form>
                     </ul>
                 </ul>
-                    <a class="nav-link mb-2" href="{{ route('article.create') }}">Inserisci un articolo</a>
+                <a class="nav-link mb-2" href="{{ route('article.create') }}">Inserisci un articolo</a>
             @endauth
             @guest
-                 <ul class="nav-item dropdown mt-2 ps-2">
-                    <a class="nav-link " href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false"><img src="image/racer.png" class="logo" alt=""></a>
+                <ul class="nav-item dropdown mt-2 ps-2">
+                    <a class="nav-link " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img
+                            src="image/racer.png" class="logo" alt=""></a>
                     <ul class="dropdown-menu ">
                         <li>
                             <a class="dropdown-item" href="{{ route('register') }}">Registrati</a>
@@ -65,7 +65,11 @@
                         <li>
                             <a class="dropdown-item" href="{{ route('login') }}">Accedi</a>
                         </li>
-
+                        @if (Auth::user()->is_admin)
+                        <li>
+                            <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a>
+                        </li>
+                        @endif
                     </ul>
                 </ul>
             @endguest
