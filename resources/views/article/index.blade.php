@@ -1,5 +1,6 @@
 <x-layout>
-    <div class="container-fluid p-5 bg-secondary-subtle text-center">
+    
+    <div class="container-fluid p-5 text-center title">
         <div class="row justify-content-cente ">
             <div class="col-12">
                 <h1 class="display-1">Tutti gli articoli</h1>

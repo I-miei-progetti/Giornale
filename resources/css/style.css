@@ -12,6 +12,17 @@ body {
     border: 2px solid rgb(255, 234, 0);
     cursor: pointer;
 }
+ 
+.logo1{
+     height: 20px;
+     border-radius: 50%;
+     transition: 0.2s;
+}
+.logo1:hover {
+    background-color: yellow;
+    border: 2px solid rgb(255, 234, 0);
+    cursor: pointer;
+}
 
 a:hover {
    color: yellow !important;
@@ -34,6 +45,9 @@ color: black;
 .navbar {
     background-color: #f31212;
 }
+
+
+
 
 /* carousel*/
 

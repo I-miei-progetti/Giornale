@@ -37,24 +37,24 @@
             <!-- Colonna sinistra: logo + cards -->
             <div class="col-12 col-md-4 d-flex flex-column align-items-center">
                 <!-- Logo -->
-                <img src="/image/logo_scritto.png" alt="Logo" class="img-fluid mb-3" style="max-width: 180px;">
+                <img src="/image/logo_scritto.png" alt="Logo" class="img-fluid mb-3" style="max-width: 350px;">
 
                 <!-- Cards -->
                 <div class="card mb-3 w-100" style="max-width: 18rem;">
                     <img src="..." class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
+                        <h5 class="card-title">Publicita 1</h5>
                         <p class="card-text">Some quick example text...</p>
-                        <a href="#" class="btn ">Go somewhere</a>
+                        <a href="#" class="btn ">Vai</a>
                     </div>
                 </div>
 
                 <div class="card w-100" style="max-width: 18rem;">
                     <img src="..." class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
+                        <h5 class="card-title">Publicita 2</h5>
                         <p class="card-text">Some quick example text...</p>
-                        <a href="#" class="btn ">Go somewhere</a>
+                        <a href="#" class="btn ">Vai</a>
                     </div>
                 </div>
             </div>
@@ -79,7 +79,7 @@
         <div class="row justify-content-enenly">
             @foreach ($articles as $article)
                 <div class="col-12 col-md-3 mb-4 d-flex justify-content-center">
-                    <div class="card" style="width: 18rem;">
+                    <div class="card" style="width: 120rem;">
                         <img src="{{ Storage::url($article->image) }}" class="card-img-top"
                             alt="Immagine dell'articolo:{{ $article->title }}">
                         <div class="card-body">

@@ -16,27 +16,10 @@
                     <a class="nav-link active" aria-current="page" href="{{ route('article.index') }}">Tutti gli
                         articoli</a>
                 </li>
-                <li class="nav-item dropdown mt-2">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Link
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
+                
             </ul>
-
+{{-- Area riservata --}}
             @auth
-
                 <ul class="nav-item dropdown mt-2">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -52,7 +35,9 @@
                         </form>
                     </ul>
                 </ul>
-                <a class="nav-link mb-2" href="{{ route('article.create') }}">Inserisci un articolo</a>
+                <a class="nav-link ms-2 mb-2 " href="{{ route('article.create') }}">Inserisci un articolo</a>
+                @if (Auth::user()->is_revisor)
+                <li><a class="dropdown-item" href="{{route('revisor.dashboard')}}">Dashboard Revisor</a></li>
             @endauth
             @guest
                 <ul class="nav-item dropdown mt-2 ps-2">
@@ -74,10 +59,12 @@
                     </ul>
                 </ul>
             @endguest
-            
+
+
+{{-- CONTINUO NAVBA --}}
             <form class="d-flex me-2" role="search">
                 <input class="form-control pe-2 ms-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn ms-1" type="submit">Cerca</button>
+                <button class="btn ms-1" type="submit"><img src="/image/lente.png" class="logo1" alt=""></button>
             </form>
         </div>
     </div>

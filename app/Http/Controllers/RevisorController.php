@@ -14,4 +14,34 @@ class RevisorController extends Controller
 
         return view('revisor.dashboard', compact('unrevisionadArticles','acceptedArticles','rejectedArticles'));
     }
+
+
+    public function acceptArticle(Article $article){
+        $article->is_accepted =true;
+        $article->save();
+        return redirect(route('revisor.dashboard'))->with('message','Articolo publicato');
+    }
+
+public function rejectArticle(article $article){
+    $article->is_accepted=false;
+    $article->save();
+    return redirect (route('revisor.dashboard'))->with('message','Articolo rifiutato');
+
 }
+
+public function undoArticle(Article $article){
+$article->is_accepted =NULL;
+$article->save();
+return redirect(rourte('revisor.dashboard'))->with('message','Articolo rimandato in revisione');
+
+}
+
+
+
+
+
+
+
+
+}
+

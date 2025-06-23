@@ -1,5 +1,5 @@
  <!-- Swiper -->
-  <div class="swiper mySwiper">
+  <div class="swiper mySwiper" >
     <div class="swiper-wrapper">
       <div class="swiper-slide">
          <div class="title" data-swiper-parallax="-300">Slide 1</div>
