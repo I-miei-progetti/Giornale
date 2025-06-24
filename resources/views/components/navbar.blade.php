@@ -16,9 +16,9 @@
                     <a class="nav-link active" aria-current="page" href="{{ route('article.index') }}">Tutti gli
                         articoli</a>
                 </li>
-                
+
             </ul>
-{{-- Area riservata --}}
+            {{-- Area riservata --}}
             @auth
                 <ul class="nav-item dropdown mt-2">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -30,14 +30,23 @@
                             <a class="dropdown-item" href="#"
                                 onclick="event.preventDefault(); document.querySelector('#form-logout').submit();">Logout</a>
                         </li>
+                         @if (Auth::user()?->is_admin)
+                            {{-- AGGIUNTO IL ? (operatore nullsafe) ALTRIMENTI NON FUNZIONAVA --}}
+                            <li>
+                                <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a>
+                            </li>
+                        @endif
+                         @if (Auth::user()->is_revisor)
+                            <li><a class="dropdown-item" href="{{ route('revisor.dashboard') }}">Dashboard Revisor</a></li>
+                        @endif
                         <form action="{{ route('logout') }}" method="POST" id="form-logout" class="d-none">
                             @csrf
                         </form>
+                       
                     </ul>
                 </ul>
                 <a class="nav-link ms-2 mb-2 " href="{{ route('article.create') }}">Inserisci un articolo</a>
-                @if (Auth::user()->is_revisor)
-                <li><a class="dropdown-item" href="{{route('revisor.dashboard')}}">Dashboard Revisor</a></li>
+
             @endauth
             @guest
                 <ul class="nav-item dropdown mt-2 ps-2">
@@ -50,21 +59,17 @@
                         <li>
                             <a class="dropdown-item" href="{{ route('login') }}">Accedi</a>
                         </li>
-                        @if (Auth::user()?->is_admin) {{-- AGGIUNTO IL ? (operatore nullsafe) ALTRIMENTI NON FUNZIONAVA--}}
-                        
-                        <li>
-                            <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a>
-                        </li>
-                        @endif
+                       
                     </ul>
                 </ul>
             @endguest
 
 
-{{-- CONTINUO NAVBA --}}
+            {{-- continuo Navbar --}}
             <form class="d-flex me-2" role="search">
                 <input class="form-control pe-2 ms-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn ms-1" type="submit"><img src="/image/lente.png" class="logo1" alt=""></button>
+                <button class="btn ms-1" type="submit"><img src="/image/lente.png" class="logo1"
+                        alt=""></button>
             </form>
         </div>
     </div>

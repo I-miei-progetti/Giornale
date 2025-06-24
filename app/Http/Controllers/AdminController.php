@@ -32,6 +32,6 @@ class AdminController extends Controller
     {
         $user->is_writer = true;
         $user->save();
-        return redirect(ruote('admin.dashboard'))->with('message', "Hai reso $user->name redattore");
+        return redirect(route('admin.dashboard'))->with('message', "Hai reso $user->name redattore");
     }
 }

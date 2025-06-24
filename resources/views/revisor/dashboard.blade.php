@@ -1,8 +1,8 @@
-<x-layaout>
+<x-layout>
     <div class="container-fluid p-5 bg-secondary-subtle text-center">
         <div class="row justify-content-center">
             <div class="col-12">
-                <h1 class="display-1">Bentornato Revisore{{ Auth::user()->name }}</h1>
+                <h1 class="display-1">Bentornato Revisore {{ Auth::user()->name }}</h1>
             </div>
         </div>
     </div>
@@ -25,7 +25,7 @@
         <div class="row justify-content-cemter">
             <div class="col-12">
                 <h2>Articoli pubblicati</h2>
-                <x-articles-table :articles="$acceptedArticles" />
+                <x-article-table :articles="$acceptedArticles" />
             </div>
         </div>
     </div>
@@ -34,8 +34,8 @@
         <div class="row justify-content-center">
             <div class="col-12">
                 <h2>Articoli respinti</h2>
-                <x-articles-table :articles="$rejectedArticles" />
+                <x-article-table :articles="$rejectedArticles" />
             </div>
         </div>
     </div>
-</x-layaout>
+</x-layout>

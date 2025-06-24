@@ -8,14 +8,15 @@
 [X]Settare il .env per la mail pg39 
 [X]ADMIN DASHBOARD pg 42
 [X]Adesso creiamo resources/views pg 45
-[ ]in articles-table.blade.php, dove inseriamo una tabella pg 54
+[X]in articles-table.blade.php, dove inseriamo una tabella pg 54
+[ ]GESTIONE DEL WRITER pg 58
 
 
 
 
 
-
-
+admin: admin@alvolante.com 
+12345678
 
 
 psw prova 1 prova1@prova.it

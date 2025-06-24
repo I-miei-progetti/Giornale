@@ -14,7 +14,7 @@
                 <th scope="row">{{ $article->id }}</th>
                 <td>{{ $article->title }}</td>
                 <td>{{ $article->subtitle }}</td>
-                <td>{{ $article->user->name }}</td>
+                <td>{{ $article->user?->name?? 'Nessun autore' }}</td>
                 <td>
                     @if (is_null($article->is_accepted))
                         <a href="{{route ('article.show', $article)}}" class="btn">Leggi l'articolo</a>

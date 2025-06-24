@@ -14,9 +14,7 @@
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>
-                    <button class="btn"> Attiva {{ $role }}</button>
-                </td>
-                @switch($role)
+                     @switch($role)
                     @case('amministratore')
                         <form action="{{ route('admin.setAdmin', $user) }}" method="POST">
                             @csrf
@@ -41,6 +39,8 @@
                         </form>
                     @break
                 @endswitch
+                </td>
+               
             </tr>
         @endforeach
     </tbody>
