@@ -66,7 +66,7 @@
 
 
             {{-- continuo Navbar --}}
-            <form class="d-flex me-2" role="search">
+            <form action="{{route('article.search')}}" method="GET" class="d-flex me-2" role="search">
                 <input class="form-control pe-2 ms-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn ms-1" type="submit"><img src="/image/lente.png" class="logo1"
                         alt=""></button>

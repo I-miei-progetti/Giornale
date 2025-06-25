@@ -9,7 +9,8 @@
 [X]ADMIN DASHBOARD pg 42
 [X]Adesso creiamo resources/views pg 45
 [X]in articles-table.blade.php, dove inseriamo una tabella pg 54
-[ ]GESTIONE DEL WRITER pg 58
+[X]GESTIONE DEL WRITER pg 58
+[ ] RICERCA FULL-TEXT -fatto verifica se funziona
 
 
 

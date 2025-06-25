@@ -16,31 +16,24 @@
                 <td>{{ $article->subtitle }}</td>
                 <td>{{ $article->user?->name ?? 'Nessun autore' }}</td>
                 <td>
-                    {{-- @if (is_null($article->is_accepted))
-                        <a href="{{route ('article.show', $article)}}" class="btn">Leggi l'articolo</a>
-                    @else
-                        <form action="{{route ('revisor.undoArticle', $article)}}" method="POST">
-                            @csrf 
-                            <button type="submit" class="btn"> Riporta in revisione</button>
-                        </form>
-                    @endif --}}
-                    @if (is_null($article->is_accepted))
-                        <a href="{{ route('article.show', $article) }}" class="btn btn-primary">Leggi l'articolo</a>
-                    @elseif ($article->is_accepted === true)
-                        <span class="badge bg-success">Accettato</span>
-                        <form action="{{ route('revisor.undoArticle', $article) }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-warning">Riporta in revisione</button>
-                        </form>
-                    @else
-                        <span class="badge bg-danger">Respinto</span>
-                        <form action="{{ route('revisor.undoArticle', $article) }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-warning">Riporta in revisione</button>
-                        </form>
-                    @endif
+    @if (is_null($article->is_accepted))
+        <a href="{{ route('article.show', $article) }}" class="btn btn-danger text-white">Leggi l'articolo</a>
+        <span class="badge bg-warning">Da revisionare</span>
+    @elseif ($article->is_accepted === 1)
+        <form action="{{ route('revisor.undoArticle', $article) }}" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-warning">Riporta in revisione</button>
+        </form>
+        <span class="badge bg-success ms-2">Pubblicato</span>
+    @else
+        <form action="{{ route('revisor.undoArticle', $article) }}" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-warning">Riporta in revisione</button>
+        </form>
+        <span class="badge bg-danger ms-2">Respinto</span>
+    @endif
+</td>
 
-                </td>
             </tr>
         @endforeach
     </tbody>

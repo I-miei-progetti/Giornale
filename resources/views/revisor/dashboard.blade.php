@@ -28,7 +28,7 @@
         <div class="row justify-content-center">
             
             <div class="col-12">
-                <h2>Articoli da Revisore</h2>
+                <h2>Articoli da Revisiore</h2>
                 <x-article-table :articles="$unrevisionedArticles"/>
             </div>
         </div>
