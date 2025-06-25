@@ -8,16 +8,28 @@
     </div>
 
     @if (session('message'))
-        <div class="alert alert-success">
+        
+        <div id="success-message" class="alert alert-success" style="position: relative;background-color:rgba(255, 247, 0, 0.908);">
             {{ session('message') }}
+            <button onclick="closeMessage()" style=" top:5px; right:10px; font-size:16px; cursor:pointer; background-color:red;"> &times; </button>
         </div>
+
+         <script>
+        function closeMessage(){
+            var msg=document.getElementById('success-message');
+             if(msg){
+                msg.style.display= "none";
+             }
+        }
+    </script> 
     @endif
 
     <div class="container my-5">
         <div class="row justify-content-center">
+            
             <div class="col-12">
                 <h2>Articoli da Revisore</h2>
-                <x-article-table :articles="$unrevisionedArticles" />
+                <x-article-table :articles="$unrevisionedArticles"/>
             </div>
         </div>
     </div>
@@ -25,7 +37,7 @@
         <div class="row justify-content-cemter">
             <div class="col-12">
                 <h2>Articoli pubblicati</h2>
-                <x-article-table :articles="$acceptedArticles" />
+                <x-article-table :articles="$acceptedArticles"/>
             </div>
         </div>
     </div>

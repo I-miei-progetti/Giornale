@@ -7,7 +7,7 @@ class RevisorController extends Controller
 {
     public function dashboard()
     {
-        $unrevisionedArticles = Article::where('is_accepted', null)->get();
+        $unrevisionedArticles = Article::where('is_accepted', NULL)->get();
         $acceptedArticles = Article::where('is_accepted', true)->get();
         $rejectedArticles = Article::where('is_accepted', false)->get();
 
@@ -31,9 +31,9 @@ class RevisorController extends Controller
 
     public function undoArticle(Article $article)
     {
-        $article->is_accepted = null;
+        $article->is_accepted = null; //false;
         $article->save();
-        return redirect(rourte('revisor.dashboard'))->with('message', 'Articolo rimandato in revisione');
+        return redirect(route('revisor.dashboard'))->with('message', 'Articolo rimandato in revisione');
 
     }
 

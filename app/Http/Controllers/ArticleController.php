@@ -20,7 +20,7 @@ class ArticleController extends Controller implements HasMiddleware
 
     public function index()
     {
-        $articles = Article::where('is_accepted',true)-> orderBy('created_at', 'desc')->get();
+        $articles = Article::where('is_accepted', true)-> orderBy('created_at', 'desc')->get();
         return view('article.index', compact('articles'));
     }
 
@@ -52,7 +52,7 @@ class ArticleController extends Controller implements HasMiddleware
             'image'       => $request->file('image')->store('images', 'public'),
             'category_id' => $request->category,
             'user_id'     => Auth::user()->id,
-            'is_accepted' => false,
+            'is_accepted' => NULL,
         ]);
         return redirect(route('homepage'))->with('message', 'Articolo crato con successo');
     }
@@ -97,8 +97,7 @@ class ArticleController extends Controller implements HasMiddleware
 
     public function byUser(User $user)
     {
-        $articles = $user->articles()->where('is_accepted',true)
-        ->orderBy('created_at', 'desc')->get();
+        $articles = $user->articles()->where('is_accepted',true)->orderBy('created_at', 'desc')->get();
     return view('article.by-user', compact('user', 'articles'));
     }
 }

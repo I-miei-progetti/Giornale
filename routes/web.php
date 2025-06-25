@@ -33,14 +33,13 @@ Route::middleware('admin')->group(function () {
 
 Route::middleware('revisor')->group(function () {
     Route::get('/revisor/dashboard', [RevisorController::class, 'dashboard'])->name('revisor.dashboard');
-    Route::post('/revisor{articlwe}/accept', [RevisorController::class, 'acceptArticle'])->name('revisor.acceptArticle');
-    Route::post('/revisorr{article}/reject', [RevisorController::class, 'rejectArticle'])->name('revisor.rejectArticle');
+    Route::post('/revisor{article}/accept', [RevisorController::class, 'acceptArticle'])->name('revisor.acceptArticle');
+    Route::post('/revisor{article}/reject', [RevisorController::class, 'rejectArticle'])->name('revisor.rejectArticle');
     Route::post('/revisor/{article}/undo', [RevisorController::class, 'undoArticle'])->name('revisor.undoArticle');
 
 });
 
-
-Route::middleware('writer')->group(function (){
-Route::get('/article/create',[ArticleController::class,'create'])->name('article.creare');
-Route::post('/article/store',[ArticleController::class,'store'])->name('article.store');
+Route::middleware('writer')->group(function () {
+    Route::get('/article/create', [ArticleController::class, 'create'])->name('article.create');
+    Route::post('/article/store', [ArticleController::class, 'store'])->name('article.store');
 });
