@@ -22,11 +22,13 @@
                             </p>
                         </div>
                         <div class="card-footer d-flex justify-content-between align items-center">
-                            <p>Redatto il {{ $article->created_at->format('d/m/Y') }}
-                                <br>da <a href="{{ route('article.byUser', $article->user) }}"
-                                    class="text-muted">{{ $article->user->name }}</a>
-
-                            </p>
+                            @if ($article->user)
+                                <p>
+                                    Redatto il {{ $article->created_at->format('d/m/Y') }}
+                                    <br>da <a href="{{ route('article.byUser', ['user' => $article->user->id]) }}"
+                                        class="text-muted">{{ $article->user->name }}</a>
+                                </p>
+                            @endif
                             <a href="{{ route('article.show', $article) }}" class="btn">Leggi</a>
                         </div>
                     </div>

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Article extends Model
 {
     use HasFactory, Searchable;
+
     protected $fillable = [
         'title', 'subtitle', 'body','image', 'user_id', 'category_id','is_accepted'
 
@@ -25,7 +26,7 @@ class Article extends Model
     }
 
 public function toSearchableArray(){
-    return[
+    return [
         'id'=> $this->id,
         'title'=>$this->title,
         'subtitle'=>$this->subtitle,

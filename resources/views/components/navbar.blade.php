@@ -30,19 +30,19 @@
                             <a class="dropdown-item" href="#"
                                 onclick="event.preventDefault(); document.querySelector('#form-logout').submit();">Logout</a>
                         </li>
-                         @if (Auth::user()?->is_admin)
+                        @if (Auth::user()?->is_admin)
                             {{-- AGGIUNTO IL ? (operatore nullsafe) ALTRIMENTI NON FUNZIONAVA --}}
                             <li>
                                 <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a>
                             </li>
                         @endif
-                         @if (Auth::user()->is_revisor)
+                        @if (Auth::user()->is_revisor)
                             <li><a class="dropdown-item" href="{{ route('revisor.dashboard') }}">Dashboard Revisor</a></li>
                         @endif
                         <form action="{{ route('logout') }}" method="POST" id="form-logout" class="d-none">
                             @csrf
                         </form>
-                       
+
                     </ul>
                 </ul>
                 <a class="nav-link ms-2 mb-2 " href="{{ route('article.create') }}">Inserisci un articolo</a>
@@ -59,18 +59,20 @@
                         <li>
                             <a class="dropdown-item" href="{{ route('login') }}">Accedi</a>
                         </li>
-                       
+
                     </ul>
                 </ul>
             @endguest
 
 
             {{-- continuo Navbar --}}
-            <form action="{{route('article.search')}}" method="GET" class="d-flex me-2" role="search">
-                <input class="form-control pe-2 ms-2" type="search" placeholder="Search" aria-label="Search">
+            <form action="{{ route('article.search') }}" method="GET" class="d-flex me-2" role="search">
+                <input class="form-control pe-2 ms-2" type="search" placeholder="Cerca tra gli articoli..."
+                    aria-label="Search" name="query">
                 <button class="btn ms-1" type="submit"><img src="/image/lente.png" class="logo1"
                         alt=""></button>
             </form>
+
         </div>
     </div>
 </nav>
