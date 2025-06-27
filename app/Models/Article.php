@@ -36,5 +36,9 @@ public function toSearchableArray(){
 }
 
 
+public function tags(){
+    return $this->belongsToMany(Tag::class);
+}
+
 
 }

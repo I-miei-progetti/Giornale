@@ -10,7 +10,8 @@
 [X]Adesso creiamo resources/views pg 45
 [X]in articles-table.blade.php, dove inseriamo una tabella pg 54
 [X]GESTIONE DEL WRITER pg 58
-[ ] RICERCA FULL-TEXT -fatto verifica se funziona
+[X] RICERCA FULL-TEXT 
+[ ] Tag e categorie  fermo a "Spostiamoci nell’AdminController:" pg 74
 
 
 

@@ -15,13 +15,17 @@
 
                 <div class="text-center mb-4">
                     <h2>{{ $article->subtitle }}</h2>
-                    <p class="fs-5">
-                        Categoria:
-                        <a href="{{ route('article.byCategory', $article->category) }}"
-                            class="text-capitalize text-muted">
-                            {{ $article->category->name }}
-                        </a>
-                    </p>
+                    @if ($article->category)
+                        <p class="fs-5">
+                            Categoria:
+                            <a href="{{ route('article.byCategory', $article->category) }}"
+                                class="text-capitalize text-muted">
+                                {{ $article->category->name }}
+                            </a>
+                        </p>
+                    @else
+                        <p class="fs-5">Nessuna categoria</p>
+                    @endif
                     <p class="text-muted">
                         Redatto il {{ $article->created_at->format('d/m/Y') }}
                         {{-- da:{{ $article->user->name }} --}}
@@ -33,7 +37,8 @@
 
                 <div class="mt-5">
                     <div class="text-center">
-                        <a href="{{ route('article.index') }}" class="text-secondary">← Torna alla lista degli articoli</a>
+                        <a href="{{ route('article.index') }}" class="text-secondary">← Torna alla lista degli
+                            articoli</a>
                     </div>
                 </div>
 

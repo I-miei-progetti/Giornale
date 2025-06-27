@@ -1,33 +1,37 @@
 <x-layout>
     @if (session('message'))
-        <div id="success-message" class="alert alert-success" style="position: relative;background-color:rgba(255, 247, 0, 0.908);">
+        <div id="success-message" class="alert alert-success"
+            style="position: relative;background-color:rgba(255, 247, 0, 0.908);">
             {{ session('message') }}
-            <button onclick="closeMessage()" style=" top:5px; right:10px; font-size:16px; cursor:pointer; background-color:red;"> &times; </button>
+            <button onclick="closeMessage()"
+                style=" top:5px; right:10px; font-size:16px; cursor:pointer; background-color:red;"> &times; </button>
         </div>
 
-         <script>
-        function closeMessage(){
-            var msg=document.getElementById('success-message');
-             if(msg){
-                msg.style.display= "none";
-             }
-        }
-    </script> 
+        <script>
+            function closeMessage() {
+                var msg = document.getElementById('success-message');
+                if (msg) {
+                    msg.style.display = "none";
+                }
+            }
+        </script>
     @endif
 
     @if (session('alert'))
-    <div id="alert-message" class="alert alert-danger" style="position: relative;background-color:rgba(255, 247, 0, 0.908;">
-        {{ session('alert')}}
-        <button onclick="closeMessage()" style=" top:5px; right:10px; font-size:16px; cursor:pointer; background-color:red;"> &times; </button>
-    </div>
-    <script>
-        function closeMessage(){
-            var msg=document.getElementById('alert-message');
-             if(msg){
-                msg.style.display= "none";
-             }
-        }
-    </script> 
+        <div id="alert-message" class="alert alert-danger"
+            style="position: relative;background-color:rgba(255, 247, 0, 0.908;">
+            {{ session('alert') }}
+            <button onclick="closeMessage()"
+                style=" top:5px; right:10px; font-size:16px; cursor:pointer; background-color:red;"> &times; </button>
+        </div>
+        <script>
+            function closeMessage() {
+                var msg = document.getElementById('alert-message');
+                if (msg) {
+                    msg.style.display = "none";
+                }
+            }
+        </script>
     @endif
 
 
@@ -80,8 +84,11 @@
             @foreach ($articles as $article)
                 <div class="col-12 col-md-3 mb-4 d-flex justify-content-center">
                     <div class="card" style="width: 120rem;">
-                        <img src="{{ Storage::url($article->image) }}" class="card-img-top"
-                            alt="Immagine dell'articolo:{{ $article->title }}">
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center mt-1"
+                            style="height: 200px;">
+                            <img src="{{ Storage::url($article->image) }}" class="h-100" style="object-fit: contain;"
+                                alt="Immagine dell'articolo: {{ $article->title }}">
+                        </div>
                         <div class="card-body">
                             <h5 class="card-title">{{ $article->title }}</h5>
                             <p class="card-text">{{ $article->subtitle }}</p>
@@ -89,7 +96,11 @@
                                 <a href="{{ route('article.byCategory', $article->category) }}"
                                     class="text-capitalize text-muted">{{ $article->category->name }}</a>
                             </p>
-
+                            <p class="small text-muted my-0">
+                                @foreach ($article->tags as $tag)
+                                    #{{ $tag->name }}
+                                @endforeach
+                            </p>
                         </div>
                         <div class="card-footer d-flex justify-content-between align-items-center">
                             <p>Redatto il {{ $article->created_at->format('d/m/Y') }} <br>
@@ -108,6 +119,6 @@
         </div>
     </div>
 
-   
+
 
 </x-layout>
