@@ -11,7 +11,8 @@
 [X]in articles-table.blade.php, dove inseriamo una tabella pg 54
 [X]GESTIONE DEL WRITER pg 58
 [X] RICERCA FULL-TEXT 
-[ ] Tag e categorie 
+[X] Tag e categorie 
+[ ] pagina 79
 
 
 
