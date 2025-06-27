@@ -41,7 +41,7 @@
                         </form>
                     </td>
                     <td>
-                        <form action="{{'admin.deleteCategory',['category'=>$metaInfo]}}" method="POST">
+                        {{-- <form action="{{'admin.deleteCategory',['category'=>$metaInfo]}}" method="POST"> --}}
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn.dange">Elimina</button>

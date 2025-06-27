@@ -74,4 +74,17 @@ public function deleteCategory(Category $category){
     return redirect ()->back()->with('message','Categoria eliminata correttamente');
 }
 
+public function storeCategory(Request $request){
+    Category::create([
+        'name'=>strtolower($request->name),
+    ]);
+    return resirect()->back()->with('message','Categoria inserita correttamente');
+}
+
+
+
+
+
+
+
 }

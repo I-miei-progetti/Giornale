@@ -42,7 +42,7 @@
         <div class="row justify-content-center">
             <div class="col-12">
                 <h2>Tutti i tags</h2>
-                <x-metainfo-table :metaInfos="$tags" metaType="tags"/>
+                <x-metainfo-table :metaInfos="$tags" metaType="tags" />
             </div>
         </div>
     </div>
@@ -50,8 +50,14 @@
         <div class="row justify-content-center">
             <div class="col-12">
                 <h2>Tutte le categorie</h2>
-                <x-metainfo-table :metaInfos="$categories" metaType="categorie"/>
+                <form action="{{ route('admin.storeCategory') }}" method="POST" class="w-50 d-flex m-3">
+                    @csrf
+                    <input type="text" name="name" class="form-control me-2"
+                        placeholder="inserisci una nuova categoria">
+                    <button type="submit" class="btn">Inserisci</button>
+                </form>
             </div>
+            <x-metainfo-table :metaInfos="$categories" metaType="categorie" />
         </div>
     </div>
 </x-layout>
