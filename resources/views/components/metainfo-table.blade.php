@@ -40,11 +40,11 @@
                             <button type="submit" class="btn">Aggiorna</button>
                         </form>
                     </td>
-                    <td>
-                        {{-- <form action="{{'admin.deleteCategory',['category'=>$metaInfo]}}" method="POST"> --}}
+                    <td>  
+                        <form action="{{route('admin.deleteCategory',['category'=>$metaInfo])}}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn.dange">Elimina</button>
+                            <button type="submit" class="btn btn-danger">Elimina</button>
                         </form>
                     </td>
                 @endif

@@ -57,7 +57,7 @@ public function deleteTasg(Tag $tag){
     return redirect()->back()->with('message','Tag eliminato correttamente');
 }
 
-public function editCategoy(Request $request, Category $tag){
+public function editCategory(Request $request, Category $category){
 
     $request->validate([
         'name'=>'required|unique:categories',
@@ -78,7 +78,7 @@ public function storeCategory(Request $request){
     Category::create([
         'name'=>strtolower($request->name),
     ]);
-    return resirect()->back()->with('message','Categoria inserita correttamente');
+    return redirect()->back()->with('message','Categoria inserita correttamente');
 }
 
 
