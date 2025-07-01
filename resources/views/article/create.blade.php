@@ -17,7 +17,7 @@
                         <input type="text" name="title" class="form-control" id="title"
                             value="{{ old('title') }}">
                         @error('title')
-                            <span class="text-dager">{{ $message }}</span>
+                            <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="mb-3">
@@ -25,14 +25,14 @@
                         <input type="text" name="subtitle" class="form-control" id="subtitle"
                             value="{{ old('subtitle') }}">
                         @error('subtitle')
-                            <span class="text-dager">{{ $message }}</span>
+                            <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="mb-3">
                         <label for="image" class="form-label">Immagine</label>
                         <input type="file" name="image" class="form-control" id="image">
                         @error('image')
-                            <span class="text-dager">{{ $message }}</span>
+                            <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="mb-3">
@@ -56,12 +56,12 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="tags" class="form-label">Tags</label>
-                        <input type="text" name="tags" class="form-control" id="tags"
-                            value="{{ old('tags') }}">
+                        <label for="tag" class="form-label">Tags</label>
+                        <input type="text" name="tag" class="form-control" id="tag"
+                            value="{{ old('tag') }}">
                         <span class="small text-muted fst-italic">Dividi ogni tag con la virgola</span>
-                        @error('tags')
-                            <span class="text-dander">{{ $message }}</span>
+                        @error('tag')
+                            <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="mt-3 d-flex justify-content-center flex-column align-items-center">

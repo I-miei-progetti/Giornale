@@ -1,15 +1,16 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Article;
-use App\Models\Category;
 use App\Models\Tag;
 use App\Models\User;
+use App\Models\Article;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
 class ArticleController extends Controller implements HasMiddleware
 {
@@ -54,7 +55,7 @@ class ArticleController extends Controller implements HasMiddleware
             'image'       => $request->file('image')->store('images', 'public'),
             'category_id' => $request->category,
             'user_id'     => Auth::user()->id,
-            'is_accepted' => null,
+            'slug'        => Str::slug($request->title),
         ]);
 
         $tags = explode(',', $request->tag);
@@ -99,12 +100,11 @@ class ArticleController extends Controller implements HasMiddleware
     public function update(Request $request, Article $article)
     {
         $request->validate([
-            'title'    => 'required|min:5|unique:articles,title,' . $article->id,
-            'subtitle' => 'required|min:5',
-            'body'     => 'required|min:10',
-            'image'    => 'image',
-            'category' => 'required',
-            'tags'     => 'required',
+            'title'    => $request->title,
+            'subtitle' => $request->subtitle,
+            'body'     => $request->body,      
+            'category_id' => $request->category,
+            'slug'=>Str::slug($request->title),
         ]);
 
         $article->update([
@@ -146,11 +146,11 @@ class ArticleController extends Controller implements HasMiddleware
      */
     public function destroy(Article $article)
     {
-        foreach ($article->tags as$tag){
+        foreach ($article->tags as $tag) {
             $article->tags()->detach($tag);
         }
         $article->delete();
-        return redirect()->back()->with('message','Articolo cancellato con successo');
+        return redirect()->back()->with('message', 'Articolo cancellato con successo');
     }
 
     public function byCategory(Category $category)
