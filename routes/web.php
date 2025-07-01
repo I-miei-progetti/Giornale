@@ -52,7 +52,7 @@ Route::middleware('writer')->group(function () {
     Route::get('/writer/dashboard', [WriterController::class, 'dashboard'])->name('writer.dashboard');
     Route::get('/article/edit/{article}',[ArticleController::class, 'edit'])->name('article.edit');
     Route::put('/article/update/{article}',[ArticleController::class, 'update'])->name('article.update');
-
+    Route::delete('/article/destroy/{article}',[ArticleController::class, 'destroy'])->name('article.destroy');
 });
 
 Route::get('/article/search', [ArticleController::class, 'articleSearch'])->name('article.search');

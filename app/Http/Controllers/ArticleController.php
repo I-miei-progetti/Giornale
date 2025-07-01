@@ -131,7 +131,7 @@ class ArticleController extends Controller implements HasMiddleware
 
         foreach ($tags as $tag) {
             $newTag = Tag::updateOrCreate([
-                'name' => strtolower($tag), 
+                'name' => strtolower($tag), // usa strtolower, non strolower
             ]);
             $newTags[] = $newTag->id;
         }
@@ -146,7 +146,11 @@ class ArticleController extends Controller implements HasMiddleware
      */
     public function destroy(Article $article)
     {
-        //
+        foreach ($article->tags as$tag){
+            $article->tags()->detach($tag);
+        }
+        $article->delete();
+        return redirect()->back()->with('message','Articolo cancellato con successo');
     }
 
     public function byCategory(Category $category)
