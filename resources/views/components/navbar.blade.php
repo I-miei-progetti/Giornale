@@ -39,13 +39,19 @@
                         @if (Auth::user()->is_revisor)
                             <li><a class="dropdown-item" href="{{ route('revisor.dashboard') }}">Dashboard Revisor</a></li>
                         @endif
+                        @if (Auth::user()->is_writer)
+                         <li><a class="dropdown-item" href="{{ route('article.create') }}">Inserisci un articolo</a> </li>
+                         
+                         <li><a class="dropdown-item" href="{{route('writer.dashboard')}}">Dashboard Writer</a></li>
+                        
+                         @endif
                         <form action="{{ route('logout') }}" method="POST" id="form-logout" class="d-none">
                             @csrf
                         </form>
 
                     </ul>
                 </ul>
-                <a class="nav-link ms-2 mb-2 " href="{{ route('article.create') }}">Inserisci un articolo</a>
+                
 
             @endauth
             @guest

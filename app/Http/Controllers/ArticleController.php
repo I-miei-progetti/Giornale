@@ -1,14 +1,15 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Tag;
-use App\Models\User;
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller implements HasMiddleware
 {
@@ -63,13 +64,12 @@ class ArticleController extends Controller implements HasMiddleware
 
         }
 
-        foreach($tags as $tag){
-            $newTag =Tag::updateOrCreate([
-                'name' =>strtolower($tag)
+        foreach ($tags as $tag) {
+            $newTag = Tag::updateOrCreate([
+                'name' => strtolower($tag),
             ]);
             $article->tags()->attach($newTag);
         }
-
 
         return redirect(route('homepage'))->with('message', 'Articolo crato con successo');
     }
@@ -87,7 +87,10 @@ class ArticleController extends Controller implements HasMiddleware
      */
     public function edit(Article $article)
     {
-        //
+        if (Auth::user()->id == $article->user_id) {
+            return view('article.edit', compact('article'));
+        }
+        return redirect()->route('homapage')->with('alert', 'Accesso non consentito');
     }
 
     /**
@@ -95,7 +98,47 @@ class ArticleController extends Controller implements HasMiddleware
      */
     public function update(Request $request, Article $article)
     {
-        //
+        $request->validate([
+            'title'    => 'required|min:5|unique:articles,title,' . $article->id,
+            'subtitle' => 'required|min:5',
+            'body'     => 'required|min:10',
+            'image'    => 'image',
+            'category' => 'required',
+            'tags'     => 'required',
+        ]);
+
+        $article->update([
+            'title'       => $request->title,
+            'subtitle'    => $request->subtitle,
+            'body'        => $request->body,
+            'category_id' => $request->category,
+        ]);
+
+        if ($request->image) {
+            Storage::delete($article->image);
+            $article->update([
+                'image' => $request->file('image')->store('images', 'public'),
+            ]);
+        }
+
+        $tags = explode(',', $request->tags);
+
+        foreach ($tags as $i => $tag) {
+            $tags[$i] = trim($tag);
+        }
+
+        $newTags = [];
+
+        foreach ($tags as $tag) {
+            $newTag = Tag::updateOrCreate([
+                'name' => strtolower($tag), 
+            ]);
+            $newTags[] = $newTag->id;
+        }
+
+        $article->tags()->sync($newTags);
+        return redirect(route('writer.dashboard'))->with('message', 'Articolo modificato con successo');
+
     }
 
     /**

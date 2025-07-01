@@ -12,7 +12,7 @@
 [X]GESTIONE DEL WRITER pg 58
 [X] RICERCA FULL-TEXT 
 [X] Tag e categorie 
-[ ] pagina 79
+[ ] pagina 84
 
 
 
