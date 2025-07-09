@@ -23,9 +23,8 @@ admin: admin@alvolante.com
 
 
 
-psw amministratore@admin.com  -	revisore@revisore.it  - scrittore@scrittore.it
+psw amministratore@admin.com  -	revisore@revisore.it  - scrittore@scrittore.it - guidopiano@auto.it
 provami123
 
 
-prova2@prova2.it
 provami123

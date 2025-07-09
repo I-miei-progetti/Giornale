@@ -30,11 +30,23 @@
                     </div>
                     <div class="mb-3">
                         <label for="image" class="form-label">Immagine</label>
-                        <input type="file" name="image" class="form-control" id="image">
+                        <input type="file" name="image" class="form-control" id="image"accept="image/*">
                         @error('image')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Aggiungi altre immagini</label>
+                        <input type="file" name="images[]" multiple class="form-control" id="images"
+                            accept="image/*">
+
+                        @error('additional_images')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+
                     <div class="mb-3">
                         <label for="category" class="form-label">Categoria</label>
                         <select name="category" id="category" class="form-control">

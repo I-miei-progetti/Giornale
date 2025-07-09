@@ -24,6 +24,19 @@ body {
     cursor: pointer;
 }
 
+.logosocial{
+    width: 32px;
+  height: 32px;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.logosocial:hover {
+    background-color: yellow;
+    border: 2px solid rgb(255, 234, 0);
+    cursor: pointer;
+}
+
 a:hover {
    color: yellow !important;
     cursor: pointer !important;
@@ -103,3 +116,6 @@ body {
     height: 100%;
     object-fit: cover; /* Riempie senza distorsione */
 }
+
+
+

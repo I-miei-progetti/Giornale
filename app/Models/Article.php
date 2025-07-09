@@ -50,4 +50,25 @@ public function readDuration(){
     $minuteToRead= round($totalWords/300);
     return intval($minutesToRead);
 }
+
+
+public function images()
+{
+    return $this->hasMany(Image::class);
+}
+
+public function getCoverImageUrl(): string
+{
+    if ($this->images->count() > 0) {
+        return Storage::url($this->images->first()->path);
+    }
+
+    if ($this->image) {
+        return Storage::url($this->image);
+    }
+
+    return asset('images/default.jpg'); // Fallback immagine default
+}
+
+
 }

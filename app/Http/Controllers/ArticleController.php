@@ -1,16 +1,16 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Tag;
-use App\Models\User;
 use App\Models\Article;
 use App\Models\Category;
-use Illuminate\Support\Str;
+use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Support\Str;
 
 class ArticleController extends Controller implements HasMiddleware
 {
@@ -72,7 +72,16 @@ class ArticleController extends Controller implements HasMiddleware
             $article->tags()->attach($newTag);
         }
 
+// Salvataggio immagini (se presenti)
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $imageFile) {
+                $path = $imageFile->store('articles', 'public'); // salva in storage/app/public/articles
+                $article->images()->create(['path' => $path]);   // salva nella tabella images
+            }
+        }
+
         return redirect(route('homepage'))->with('message', 'Articolo crato con successo');
+
     }
 
     /**
@@ -100,11 +109,11 @@ class ArticleController extends Controller implements HasMiddleware
     public function update(Request $request, Article $article)
     {
         $request->validate([
-            'title'    => $request->title,
-            'subtitle' => $request->subtitle,
-            'body'     => $request->body,      
+            'title'       => $request->title,
+            'subtitle'    => $request->subtitle,
+            'body'        => $request->body,
             'category_id' => $request->category,
-            'slug'=>Str::slug($request->title),
+            'slug'        => Str::slug($request->title),
         ]);
 
         $article->update([

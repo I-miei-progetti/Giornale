@@ -10,8 +10,38 @@
     <div class="container my-5">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 d-flex flex-column">
-                <img src="{{ Storage::url($article->image) }}" class="img-fluid mb-3"
-                    alt="Immagine dell'articolo {{ $article->title }}">
+
+                {{-- Sezione immagini con carousel --}}
+                @php
+    $allImages = collect();
+    if ($article->image) {
+        $allImages->push((object)['path' => $article->image]);
+    }
+    foreach ($article->images as $img) {
+        $allImages->push($img);
+    }
+@endphp
+
+@if ($allImages->count() > 1)
+    <div id="articleCarousel-{{ $article->id }}" class="carousel slide h-100 w-100" data-bs-ride="carousel" data-bs-wrap="true" data-bs-interval="5000">
+        <div class="carousel-inner h-100">
+            @foreach ($allImages as $index => $image)
+                <div class="carousel-item h-100 {{ $index == 0 ? 'active' : '' }}">
+                    <img src="{{ Storage::url($image->path) }}" class="d-block h-100 w-100"
+                        style="object-fit: contain;"
+                        alt="Immagine {{ $index + 1 }} dell'articolo: {{ $article->title }}">
+                </div>
+            @endforeach
+        </div>
+        {{-- prev/next + indicators... --}}
+    </div>
+@elseif ($allImages->count() === 1)
+    <img src="{{ Storage::url($allImages->first()->path) }}" class="h-100 w-100"
+         style="object-fit: contain;" alt="Immagine singola articolo: {{ $article->title }}">
+@else
+    <div class="text-muted">Nessuna immagine disponibile</div>
+@endif
+
 
                 <div class="text-center mb-4">
                     <h2>{{ $article->subtitle }}</h2>
