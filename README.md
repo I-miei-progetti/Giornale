@@ -12,7 +12,10 @@
 [X]GESTIONE DEL WRITER pg 58
 [X] RICERCA FULL-TEXT 
 [X] Tag e categorie 
-[ ] pagina 84
+[X] pagina 84
+
+[ ]da verificare carousel di card  show
+[ ]layout homepage e show
 
 
 

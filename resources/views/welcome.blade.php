@@ -1,4 +1,5 @@
 <x-layout>
+    {{-- Avvisi --}}
     @if (session('message'))
         <div id="success-message" class="alert alert-success"
             style="position: relative;background-color:rgba(255, 247, 0, 0.908);">
@@ -33,9 +34,9 @@
             }
         </script>
     @endif
+{{-- fine avvisi --}}
 
-
-
+{{-- carousel --}}
     <div class="container-fluid py-4">
         <div class="row g-4">
             <!-- Colonna sinistra: logo + cards -->
@@ -45,20 +46,25 @@
 
                 <!-- Cards -->
                 <div class="card mb-3 w-100" style="max-width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
+                    <a href="https://www.alvolante.it/" target="_blank">
+                        <img src="image/copertina.jpg" class="card-img-top" alt="copertina al volante">
+                    </a>
                     <div class="card-body">
-                        <h5 class="card-title">Publicita 1</h5>
-                        <p class="card-text">Some quick example text...</p>
-                        <a href="#" class="btn ">Vai</a>
+                        <h5 class="card-title">DA QUI LA VERA RIVISTA DI AlVolante</h5>
+                        <p class="card-text">la mia è solo un interpretazione del sito volta all'esercitazione</p>
+                        <a href="https://www.alvolante.it/" class="btn " target="_blank">Vai al vero sito</a>
                     </div>
                 </div>
 
                 <div class="card w-100" style="max-width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
+                    <a href="https://www.insella.it/rivista/insella/2025/luglio" target="_blank">
+                        <img src="/image/inSella.jpeg" class="card-img-top" alt="copertina in sella">
+                    </a>
                     <div class="card-body">
-                        <h5 class="card-title">Publicita 2</h5>
-                        <p class="card-text">Some quick example text...</p>
-                        <a href="#" class="btn ">Vai</a>
+                        <h5 class="card-title">IN SELLA</h5>
+                        <p class="card-text">Se leggi alVolante ti piacerà anche inSella</p>
+                        <a href="https://www.insella.it/rivista/insella/2025/luglio" class="btn " target="_blank">Vai
+                            al sito</a>
                     </div>
                 </div>
             </div>
@@ -72,18 +78,14 @@
         </div>
     </div>
 
+{{-- fine carousel --}}
 
-    @if (session('message'))
-        <div class="alert alert-success">
-            {{ session('message') }}
-        </div>
-    @endif
 
     <div class="container my-5">
         <div class="row justify-content-enenly">
             @foreach ($articles as $article)
                 <div class="col-12 col-md-3 mb-4 d-flex justify-content-center">
-                    <x-article-card :article="$article"/>
+                    <x-article-card :article="$article" />
                 </div>
             @endforeach
         </div>
