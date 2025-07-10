@@ -75,34 +75,74 @@
                     <x-carousel />
                 </div>
                 {{-- Breaking news --}}
-                <div class="mb-3">
-                    <div class="news-ticker">
-                        <div class="ticker-content">
-                            🚗 BREAKING: Nuova Tesla Model Y • 🏎️ F1: Hamilton vince a Monaco • 🚙 SUV più venduti del
-                            2024
+                <div class="news-ticker m-3">
+                    <div class="ticker-brand">
+                        📣 News dal Mondo delle Auto
+                        <span id="ticker-clock"></span>
+                    </div>
+                    <div class="ticker-wrapper">
+                        <div class="ticker-content" id="ticker-content">
+                            @php
+                                $news = \App\Http\Controllers\NewsController::fetchNews();
+                            @endphp
+                            @foreach ($news as $n)
+                                🚗 {{ $n['title'] }} •
+                            @endforeach
                         </div>
                     </div>
                 </div>
+
                 {{-- end breaking news --}}
             </div>
+
         </div>
 
-    </div>
+        {{-- card spot + fine carousel --}}
 
-    {{-- card spot + fine carousel --}}
-
-    {{-- card --}}
-    <div class="container my-5">
-        <div class="row justify-content-enenly">
-            @foreach ($articles as $article)
-                <div class="col-12 col-md-3 mb-4 d-flex justify-content-center">
-                    <x-article-card :article="$article" />
-                </div>
-            @endforeach
+        {{-- card --}}
+        <div class="container my-5">
+            <div class="row justify-content-enenly">
+                @foreach ($articles as $article)
+                    <div class="col-12 col-md-3 mb-4 d-flex justify-content-center">
+                        <x-article-card :article="$article" />
+                    </div>
+                @endforeach
+            </div>
         </div>
-    </div>
-    {{-- end card --}}
+        {{-- end card --}}
 
 
 
 </x-layout>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const ticker = document.getElementById("ticker-content");
+        const wrapper = document.querySelector(".ticker-wrapper");
+        let position = wrapper.offsetWidth;
+
+        function scrollTicker() {
+            position -= 0.5; // 👈 più piccolo = più lento (es. 0.2 per ultra lento)
+            if (position <= -ticker.scrollWidth) {
+                position = wrapper.offsetWidth;
+            }
+            ticker.style.transform = `translateX(${position}px)`;
+            requestAnimationFrame(scrollTicker);
+        }
+
+        scrollTicker();
+    });
+</script>
+<script>
+    function updateClock() {
+        const now = new Date();
+        const clock = document.getElementById("ticker-clock");
+        clock.textContent = now.toLocaleTimeString('it-IT', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+</script>

@@ -120,3 +120,52 @@ body {
 
 
 
+/* news section */
+.news-ticker {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+    background-color: #f2f2f2;
+    border-top: 2px solid red;
+    border-bottom: 2px solid red;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.ticker-brand {
+    padding: 0 15px;
+    white-space: nowrap;
+    color: #c00;
+    background-color: #fff;
+    border-right: 2px solid red;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#ticker-clock {
+    font-weight: normal;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.ticker-wrapper {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+}
+
+.ticker-content {
+    display: inline-block;
+    white-space: nowrap;
+    /* position: absolute; */
+    will-change: transform;
+    position: relative;
+    display: block;
+
+}
+/* end news section */

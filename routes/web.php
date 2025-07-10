@@ -56,3 +56,7 @@ Route::middleware('writer')->group(function () {
 });
 
 Route::get('/article/search', [ArticleController::class, 'articleSearch'])->name('article.search');
+
+
+
+Route::get('/news-ticker', [App\Http\Controllers\NewsController::class, 'fetch']);
