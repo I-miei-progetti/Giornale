@@ -79,13 +79,14 @@ body {
       padding: 0;
     } */
 
-/* Swiper piccolo e affiancato */
 .swiper {
-    width: 100%; /* piena larghezza del contenitore genitore */
-    max-width: 700px; /* opzionale: limita larghezza massima */
-    height: 250px; /* puoi adattare altezza o usare altezza relativa */
+    width: 100% ; /* piena larghezza del contenitore genitore */
+    height: 100%; /* puoi adattare altezza o usare altezza relativa */
     border-radius: 8px;
     overflow: hidden;
+    flex: 1;
+    min-height: 400px; 
+    min-width: 300px;
 }
 
 .swiper-slide img {

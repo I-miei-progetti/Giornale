@@ -34,13 +34,13 @@
             }
         </script>
     @endif
-{{-- fine avvisi --}}
+    {{-- fine avvisi --}}
 
-{{-- carousel --}}
+    {{-- card spot + carousel --}}
     <div class="container-fluid py-4">
         <div class="row g-4">
             <!-- Colonna sinistra: logo + cards -->
-            <div class="col-12 col-md-4 d-flex flex-column align-items-center">
+            <div class="col-12 col-lg-4 col-xl-3 d-flex flex-column align-items-center">
                 <!-- Logo -->
                 <img src="/image/logo_scritto.png" alt="Logo" class="img-fluid mb-3" style="max-width: 350px;">
 
@@ -70,17 +70,28 @@
             </div>
 
             <!-- Colonna destra: Carousel -->
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-lg-8 col-xl-9 ">
                 <div class="w-100" style="aspect-ratio: 16 / 9;">
                     <x-carousel />
                 </div>
+                {{-- Breaking news --}}
+                <div class="mb-3">
+                    <div class="news-ticker">
+                        <div class="ticker-content">
+                            🚗 BREAKING: Nuova Tesla Model Y • 🏎️ F1: Hamilton vince a Monaco • 🚙 SUV più venduti del
+                            2024
+                        </div>
+                    </div>
+                </div>
+                {{-- end breaking news --}}
             </div>
         </div>
+
     </div>
 
-{{-- fine carousel --}}
+    {{-- card spot + fine carousel --}}
 
-
+    {{-- card --}}
     <div class="container my-5">
         <div class="row justify-content-enenly">
             @foreach ($articles as $article)
@@ -90,6 +101,7 @@
             @endforeach
         </div>
     </div>
+    {{-- end card --}}
 
 
 
