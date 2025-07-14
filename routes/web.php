@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\PublicController;
-use App\Http\Controllers\RevisorController;
-use App\Http\Controllers\WriterController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PublicController;
+use App\Http\Controllers\WriterController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\RevisorController;
+use App\Http\Controllers\ConfiguratoreController;
 
 // Rotte pubbliche
 Route::controller(PublicController::class)->group(function () {
@@ -58,5 +59,16 @@ Route::middleware('writer')->group(function () {
 Route::get('/article/search', [ArticleController::class, 'articleSearch'])->name('article.search');
 
 
-
+// rotte delle news ticker
 Route::get('/news-ticker', [App\Http\Controllers\NewsController::class, 'fetch']);
+
+
+
+// Rotte configuratore auto
+Route::get('/configura', [ConfiguratoreController::class, 'mostraForm']);
+Route::post('/configura-auto', [ConfiguratoreController::class, 'configuraAutoAssistente']);
+Route::post('/assistente-auto', [ConfiguratoreController::class, 'analizzaTesto'])->name('analizza');
+
+
+
+

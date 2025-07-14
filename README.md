@@ -15,7 +15,13 @@
 [X] pagina 84
 
 [ ]da verificare carousel di card  show
-[ ]layout homepage e show
+
+
+
+
+<!-- PS C:\Users\ASUS\Desktop\ProgettoPersonaleGiornale\assistente_auto> python auto_assistente.py "vorrei una fiat elettrica a non meno di 50000€"
+>>
+{"testo": "🚗 La migliore auto della casa <strong>FIAT</strong> è la <strong>Tipo Berlina</strong>, con motorizzazione <em>elettrica</em> e prezzo sotto <strong>€50000</strong>.", "link": "https://www.fiat.it", "immagine": "https://source.unspl -->
 
 
 
