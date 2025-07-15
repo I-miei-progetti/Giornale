@@ -75,8 +75,8 @@
                     <x-carousel />
                 </div>
                 {{-- Breaking news --}}
-                <div class="news-ticker m-3">
-                    <div class="ticker-brand">
+                <div class="news-ticker m-3 overflow-hidden">
+                    <div class="ticker-brand mb-2 fw-bold d-flex justify-content-between align-items-center">
                         📣 News dal Mondo delle Auto
                         <span id="ticker-clock"></span>
                     </div>
@@ -95,19 +95,11 @@
                 {{-- end breaking news --}}
 
                 {{-- Configuratore Auto --}}
-                
+                 @include('components.car-configurator')
                 {{-- fine configuratore --}}
-
-
-
-
-
             </div>
-
         </div>
-
         {{-- card spot + fine carousel --}}
-
         {{-- card --}}
         <div class="container my-5">
             <div class="row justify-content-enenly">
@@ -119,9 +111,6 @@
             </div>
         </div>
         {{-- end card --}}
-
-
-
 </x-layout>
 
 

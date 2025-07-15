@@ -8,6 +8,7 @@
     <title>Al Volante</title>
     <link rel="icon" href="/image/logo.jpg" class="logo" type="image/x-icon">
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+     <meta name="csrf-token" content="{{ csrf_token() }}">
      
 
 

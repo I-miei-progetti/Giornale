@@ -19,11 +19,17 @@
 
 
 
-<!-- PS C:\Users\ASUS\Desktop\ProgettoPersonaleGiornale\assistente_auto> python auto_assistente.py "vorrei una fiat elettrica a non meno di 50000€"
->>
-{"testo": "🚗 La migliore auto della casa <strong>FIAT</strong> è la <strong>Tipo Berlina</strong>, con motorizzazione <em>elettrica</em> e prezzo sotto <strong>€50000</strong>.", "link": "https://www.fiat.it", "immagine": "https://source.unspl -->
+ok ci siamo ma ci sono delle cose che non vanno:
 
+se chiedo un modello diverso da quello che è inserito nel controller non mi da un modello ma dice ad esempio Alfa romeo Model;
 
+quando vado al sito mi si apre solo la pagina di google;
+
+non tiene conto del budget che gli dico e non mi pone domande, cioè se gli dico voglio un auto, non mi chiede che auto preferisci, quanto vorresti spendere e altre comande;
+
+non mi si apre l'immagine
+Esempio:
+voglio una berlina cinese da spendere meno di 15€ da usare una volta l'anno
 
 
 admin: admin@alvolante.com 

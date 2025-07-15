@@ -6,7 +6,8 @@ use App\Http\Controllers\PublicController;
 use App\Http\Controllers\WriterController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\RevisorController;
-use App\Http\Controllers\ConfiguratoreController;
+use App\Http\Controllers\CarConfiguratorController;
+
 
 // Rotte pubbliche
 Route::controller(PublicController::class)->group(function () {
@@ -64,7 +65,7 @@ Route::get('/news-ticker', [App\Http\Controllers\NewsController::class, 'fetch']
 
 
 
-
+Route::post('/car/analyze', [CarConfiguratorController::class, 'analyze'])->name('car.analyze');
 
 
 
