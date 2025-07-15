@@ -95,17 +95,7 @@
                 {{-- end breaking news --}}
 
                 {{-- Configuratore Auto --}}
-                <div class="container my-4">
-                    <h3>👨‍🏫 Configura la tua nuova Auto</h3>
-                    {{-- textarea con id corretto --}}
-                    <textarea id="testoUtente" name="messaggio" class="form-control" rows="4" placeholder="Scrivi le tue esigenze..."></textarea>
-                    <button type="button" onclick="inviaTesto()" class="btn btn-primary mt-2">
-                        Invia
-                    </button>
-
-                    {{-- qui mostriamo la risposta --}}
-                    <div id="rispostaAssistente" class="alert alert-info mt-3" style="display:none;"></div>
-                </div>
+                
                 {{-- fine configuratore --}}
 
 
@@ -167,30 +157,4 @@
 </script>
 
 
-
-<script>
-function inviaTesto() {
-    const msg = document.getElementById('testoUtente').value;
-
-    fetch("{{ route('analizza') }}", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        },
-        body: JSON.stringify({ messaggio: msg })
-    })
-    .then(response => response.json())
-    .then(data => {
-        const div = document.getElementById('rispostaAssistente');
-        div.style.display = 'block';
-        div.innerHTML = `
-            <strong>Consiglio:</strong> ${data.testo}<br>
-            ${data.link ? `<a href="${data.link}" target="_blank">Vai al sito</a><br>` : ''}
-            <img src="${data.immagine}" style="max-width:300px;" />
-        `;
-    })
-    .catch(err => console.error(err));
-}
-</script>
 

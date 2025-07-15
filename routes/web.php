@@ -64,10 +64,7 @@ Route::get('/news-ticker', [App\Http\Controllers\NewsController::class, 'fetch']
 
 
 
-// Rotte configuratore auto
-Route::get('/configura', [ConfiguratoreController::class, 'mostraForm']);
-Route::post('/configura-auto', [ConfiguratoreController::class, 'configuraAutoAssistente']);
-Route::post('/assistente-auto', [ConfiguratoreController::class, 'analizzaTesto'])->name('analizza');
+
 
 
 
