@@ -1,169 +1,359 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Services\CarAIService;
+use App\Services\CarDataService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 class CarConfiguratorController extends Controller
 {
-    private $brandSites = [
-        'ferrari' => 'https://www.ferrari.com',
-        'lamborghini' => 'https://www.lamborghini.com',
-        'bmw' => 'https://www.bmw.it',
-        'mercedes' => 'https://www.mercedes-benz.it',
-        'audi' => 'https://www.audi.it',
-        'volkswagen' => 'https://www.volkswagen.it',
-        'fiat' => 'https://www.fiat.it',
-        'alfa romeo' => 'https://www.alfaromeo.it',
-        'toyota' => 'https://www.toyota.it',
-        'honda' => 'https://www.honda.it',
-        'ford' => 'https://www.ford.it',
-        'peugeot' => 'https://www.peugeot.it',
-        'renault' => 'https://www.renault.it',
-        'tesla' => 'https://www.tesla.com',
-        'porsche' => 'https://www.porsche.it',
-    ];
+    private $carAI;
+    private $carData;
 
-    private $categories = [
-        'sportiva' => ['sportiva', 'sport', 'racing', 'veloce', 'performance'],
-        'suv' => ['suv', 'crossover', 'fuoristrada', 'alto', 'grande'],
-        'city' => ['city', 'urbana', 'piccola', 'compatta', 'economica'],
-        'berlina' => ['berlina', 'sedan', 'elegante', 'lusso', 'comfort'],
-        'elettrica' => ['elettrica', 'elettrico', 'eco', 'green'],
-        'cabrio' => ['cabrio', 'cabriolet', 'convertibile', 'scoperta'],
-    ];
-
-    public function analyze(Request $request)
+    public function __construct()
     {
-        $request->validate([
-            'description' => 'required|string|max:1000'
-        ]);
+        $this->carAI = new CarAIService();
+        $this->carData = new CarDataService();
+    }
 
-        $description = strtolower($request->input('description'));
-        
+    public function analyze(Request $request): JsonResponse
+    {
+        $description = trim($request->input('description', ''));
+
+        if (strlen($description) < 8) {
+            return $this->askForMoreDetails();
+        }
+
         try {
-            // Analizza la descrizione
-            $brand = $this->detectBrand($description);
-            $category = $this->detectCategory($description);
-            $priceRange = $this->detectPriceRange($description, $brand);
-            $model = $this->suggestModel($brand, $category);
-            $carDescription = $this->generateDescription($brand, $model, $category, $priceRange);
-            
+            // 1. Analizza richiesta con AI
+            $aiAnalysis = $this->carAI->analyzeCarRequest($description);
+
+            // 2. Ottieni dati auto reali
+            $allMakes = $this->carData->getAllMakes();
+
+            // 3. Trova la marca migliore
+            $detectedBrand = $aiAnalysis['brand'] ?? null;
+            if ($detectedBrand) {
+                $brand = $this->carData->findBestMakeMatch($detectedBrand, $allMakes) ?? $detectedBrand;
+            } else {
+                $brand = $this->carData->findBestMakeMatch($description, $allMakes);
+            }
+
+            if (!$brand) {
+                return $this->askForMoreDetails(
+                    "🤔 Non ho capito la marca. Marche disponibili: " .
+                    implode(', ', array_slice($allMakes, 0, 8)) . "..."
+                );
+            }
+
+            // 4. Ottieni modelli reali per la marca
+            $availableModels = $this->carData->getModelsByMake($brand);
+
+            // 5. Trova il modello migliore
+            $bestModel = $this->findBestModel($availableModels, $aiAnalysis, $description);
+
+            // 6. Determina categoria e prezzo
+            $category = $aiAnalysis['category'] ?? 'berlina';
+            $priceRange = $this->calculatePriceRange($aiAnalysis, $brand);
+
+            // 7. Genera risposta completa
             return response()->json([
                 'brand' => $brand,
-                'model' => $model,
+                'model' => $bestModel,
                 'category' => $category,
                 'price_range' => $priceRange,
-                'official_site' => $this->brandSites[$brand] ?? 'https://www.google.com',
-                'image_url' => $this->getCarImage($brand, $model),
-                'description' => $carDescription
+                'official_site' => $this->getOfficialSite($brand),
+                'image_url' => $this->getCarImage($brand, $bestModel),
+                'description' => $this->generateDescription($brand, $bestModel, $category, $priceRange),
+                'conversation' => $this->generateConversation($brand, $bestModel, $category, $description, $aiAnalysis, count($availableModels)),
+                'available_models' => array_slice($availableModels, 0, 6),
+                'ai_confidence' => $aiAnalysis['confidence'] ?? 0.7,
+                'total_models_found' => count($availableModels),
             ]);
 
         } catch (\Exception $e) {
+            \Log::error('Car analysis error: ' . $e->getMessage());
+
             return response()->json([
-                'error' => 'Errore durante l\'elaborazione: ' . $e->getMessage()
+                'error' => 'Si è verificato un errore nell\'analisi. Riprova.',
+                'debug' => config('app.debug') ? $e->getMessage() : null,
             ], 500);
         }
     }
 
-    private function detectBrand($description)
+    /**
+     * Trova il modello migliore tra quelli disponibili
+     */
+    private function findBestModel(array $availableModels, array $aiAnalysis, string $description): string
     {
-        foreach ($this->brandSites as $brand => $site) {
-            if (strpos($description, $brand) !== false) {
-                return ucfirst($brand);
+        if (empty($availableModels)) {
+            // Se non hai modelli, genera uno smart
+            $brand = $aiAnalysis['brand'] ?? 'Auto';
+            $category = $aiAnalysis['category'] ?? 'berlina';
+            return $this->generateSmartModel($brand, $category);
+        }
+
+        $description = strtolower($description);
+        $category = $aiAnalysis['category'] ?? '';
+
+        // 1. Cerca match diretto nella descrizione
+        foreach ($availableModels as $model) {
+            if (strpos($description, strtolower($model)) !== false) {
+                return $model;
             }
         }
-        
-        // Analisi per caratteristiche
-        if (strpos($description, 'lusso') !== false || strpos($description, 'elegante') !== false) {
-            return 'Mercedes';
-        } elseif (strpos($description, 'sportiva') !== false || strpos($description, 'veloce') !== false) {
-            return 'BMW';
-        } elseif (strpos($description, 'economica') !== false || strpos($description, 'piccola') !== false) {
-            return 'Fiat';
-        } elseif (strpos($description, 'elettrica') !== false || strpos($description, 'eco') !== false) {
-            return 'Tesla';
-        } elseif (strpos($description, 'suv') !== false || strpos($description, 'grande') !== false) {
-            return 'Volkswagen';
-        } else {
-            return 'Toyota';
-        }
-    }
 
-    private function detectCategory($description)
-    {
-        foreach ($this->categories as $category => $keywords) {
-            foreach ($keywords as $keyword) {
-                if (strpos($description, $keyword) !== false) {
-                    return $category;
+        // 2. Match basato su categoria
+        $categoryKeywords = [
+            'sportiva' => ['sport', 'rs', 'amg', 'm2', 'm3', 'm4', 'm5', 'gtr', 'turbo', 'gt', 'performance'],
+            'suv' => ['x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'q2', 'q3', 'q4', 'q5', 'q7', 'q8', 'gle', 'glc', 'gla', 'glb', 'gls', 'suv', 'crossover'],
+            'city' => ['1', '2', 'mini', 'smart', 'city', 'up', 'aygo', 'ka', 'jazz'],
+            'elettrica' => ['e-', 'i3', 'i4', 'ix3', 'model', 'leaf', 'id.', 'ev', 'electric', 'eq', 'taycan']
+        ];
+
+        if (isset($categoryKeywords[$category])) {
+            foreach ($availableModels as $model) {
+                foreach ($categoryKeywords[$category] as $keyword) {
+                    if (strpos(strtolower($model), $keyword) !== false) {
+                        return $model;
+                    }
                 }
             }
         }
-        return 'berlina';
-    }
 
-    private function detectPriceRange($description, $brand)
-    {
-        // Cerca numeri nella descrizione
-        preg_match('/(\d+)(?:\s*(?:k|mila|euro|€))?/', $description, $matches);
-        
-        if (!empty($matches)) {
-            $price = intval($matches[1]);
-            if (strpos($description, 'k') !== false || strpos($description, 'mila') !== false) {
-                $price *= 1000;
+        // 3. Estrai modello dalla descrizione usando pattern
+        $extractedModel = $this->extractModelFromDescription($description, $aiAnalysis['brand'] ?? '');
+        if ($extractedModel) {
+            // Trova il match più simile nei modelli disponibili
+            foreach ($availableModels as $model) {
+                if (strpos(strtolower($model), strtolower($extractedModel)) !== false ||
+                    strpos(strtolower($extractedModel), strtolower($model)) !== false) {
+                    return $model;
+                }
             }
-            
-            if ($price < 25000) return 'economica';
-            if ($price < 50000) return 'media';
-            if ($price < 100000) return 'premium';
-            if ($price < 300000) return 'lusso';
-            return 'supercar';
         }
-        
-        // Analisi per marca
-        $luxuryBrands = ['ferrari', 'lamborghini', 'porsche'];
-        $premiumBrands = ['bmw', 'mercedes', 'audi'];
-        
-        if (in_array(strtolower($brand), $luxuryBrands)) return 'lusso';
-        if (in_array(strtolower($brand), $premiumBrands)) return 'premium';
-        
-        return 'media';
+
+        // 4. Ritorna il primo modello disponibile
+        return $availableModels[0];
     }
 
-    private function suggestModel($brand, $category)
+    private function extractModelFromDescription(string $description, string $brand): ?string
     {
-        $models = [
-            'BMW' => ['sportiva' => 'M3', 'suv' => 'X5', 'berlina' => 'Serie 3'],
-            'Mercedes' => ['sportiva' => 'AMG GT', 'suv' => 'GLE', 'berlina' => 'Classe C'],
-            'Audi' => ['sportiva' => 'RS5', 'suv' => 'Q7', 'berlina' => 'A4'],
-            'Fiat' => ['city' => '500', 'suv' => '500X', 'berlina' => 'Tipo'],
-            'Tesla' => ['elettrica' => 'Model 3', 'suv' => 'Model Y'],
-            'Toyota' => ['city' => 'Yaris', 'suv' => 'RAV4', 'berlina' => 'Camry'],
+        $description = strtolower($description);
+        $brand = strtolower($brand);
+
+        // Pattern comuni per modelli auto
+        $patterns = [
+            'bmw' => ['/serie\s*(\d)/i', '/x(\d)/i', '/m(\d)/i', '/(i\d)/i'],
+            'mercedes' => ['/classe\s*([a-z])/i', '/gl([a-z])/i', '/(amg)/i'],
+            'audi' => ['/a(\d)/i', '/q(\d)/i', '/rs(\d)/i', '/(tt)/i'],
+            'volkswagen' => ['/(golf)/i', '/(polo)/i', '/(tiguan)/i', '/(passat)/i'],
+            'fiat' => ['/(\d{3})/i', '/(panda)/i', '/(tipo)/i', '/(punto)/i'],
+            'toyota' => ['/(yaris)/i', '/(corolla)/i', '/(rav\d)/i', '/(prius)/i'],
+            'tesla' => ['/model\s*([3sxy])/i'],
         ];
-        
-        return $models[$brand][$category] ?? $brand . ' Model';
+
+        if (isset($patterns[$brand])) {
+            foreach ($patterns[$brand] as $pattern) {
+                if (preg_match($pattern, $description, $matches)) {
+                    return $this->formatModelName($brand, $matches[1]);
+                }
+            }
+        }
+
+        return null;
     }
 
-    private function generateDescription($brand, $model, $category, $priceRange)
+    private function formatModelName(string $brand, string $match): string
     {
-        $descriptions = [
-            'economica' => "La $brand $model è una $category perfetta per chi cerca qualità e convenienza.",
-            'media' => "La $brand $model rappresenta un ottimo compromesso tra prestazioni e prezzo.",
-            'premium' => "La $brand $model è una $category di alta gamma con tecnologie avanzate.",
-            'lusso' => "La $brand $model rappresenta l'eccellenza nel segmento $category.",
-            'supercar' => "La $brand $model è una $category da sogno con prestazioni mozzafiato.",
+        $brand = strtolower($brand);
+        $match = strtolower(trim($match));
+
+        $formatting = [
+            'bmw' => [
+                '1' => 'Serie 1', '2' => 'Serie 2', '3' => 'Serie 3',
+                '4' => 'Serie 4', '5' => 'Serie 5', '7' => 'Serie 7'
+            ],
+            'mercedes' => [
+                'a' => 'Classe A', 'b' => 'Classe B', 'c' => 'Classe C',
+                'e' => 'Classe E', 's' => 'Classe S'
+            ],
+            'audi' => [
+                '1' => 'A1', '3' => 'A3', '4' => 'A4', '6' => 'A6', '8' => 'A8'
+            ]
         ];
-        
-        return $descriptions[$priceRange] ?? "La $brand $model è una $category di qualità.";
+
+        return $formatting[$brand][$match] ?? ucwords($match);
     }
 
-    private function getCarImage($brand, $model)
+    private function generateSmartModel(string $brand, ?string $category): string
     {
-        // Usa immagini placeholder colorate
-        $colors = ['1e3a8a', 'dc2626', '059669', '7c3aed', 'ea580c'];
-        $color = $colors[array_rand($colors)];
-        
-        return "https://via.placeholder.com/400x300/$color/ffffff?text=" . urlencode($brand . ' ' . $model);
+        $smartModels = [
+            'sportiva' => [
+                'BMW' => 'M3', 'Mercedes-Benz' => 'AMG GT', 'Audi' => 'RS4',
+                'Ferrari' => 'F8 Tributo', 'Porsche' => '911', 'Lamborghini' => 'Huracán',
+                'Toyota' => 'GR Supra', 'Ford' => 'Mustang', 'Tesla' => 'Model S'
+            ],
+            'suv' => [
+                'BMW' => 'X3', 'Mercedes-Benz' => 'GLC', 'Audi' => 'Q5',
+                'Volkswagen' => 'Tiguan', 'Toyota' => 'RAV4', 'Jeep' => 'Compass',
+                'Tesla' => 'Model Y', 'Volvo' => 'XC60'
+            ],
+            'city' => [
+                'BMW' => 'Serie 1', 'Mercedes-Benz' => 'Classe A', 'Audi' => 'A1',
+                'Fiat' => '500', 'Toyota' => 'Yaris', 'Honda' => 'Jazz',
+                'Volkswagen' => 'Polo', 'Ford' => 'Fiesta'
+            ],
+            'berlina' => [
+                'BMW' => 'Serie 3', 'Mercedes-Benz' => 'Classe C', 'Audi' => 'A4',
+                'Volkswagen' => 'Passat', 'Toyota' => 'Corolla', 'Tesla' => 'Model 3'
+            ],
+            'elettrica' => [
+                'BMW' => 'i4', 'Mercedes-Benz' => 'EQC', 'Audi' => 'e-tron',
+                'Tesla' => 'Model 3', 'Nissan' => 'Leaf', 'Volkswagen' => 'ID.4'
+            ]
+        ];
+
+        return $smartModels[$category][$brand] ?? $smartModels['berlina'][$brand] ?? "{$brand} Premium";
+    }
+
+    private function calculatePriceRange(array $aiAnalysis, string $brand): string
+    {
+        // Se AI ha rilevato budget specifico
+        if (!empty($aiAnalysis['budget_min']) && !empty($aiAnalysis['budget_max'])) {
+            $min = number_format($aiAnalysis['budget_min'], 0, '.', '.');
+            $max = number_format($aiAnalysis['budget_max'], 0, '.', '.');
+            return "{$min}€ - {$max}€";
+        }
+
+        // Range basato su marca
+        $priceRanges = [
+            'Ferrari' => '200.000€ - 500.000€+',
+            'Lamborghini' => '150.000€ - 400.000€+',
+            'Porsche' => '60.000€ - 200.000€',
+            'BMW' => '30.000€ - 80.000€',
+            'Mercedes-Benz' => '35.000€ - 85.000€',
+            'Audi' => '28.000€ - 75.000€',
+            'Tesla' => '40.000€ - 100.000€',
+            'Volkswagen' => '20.000€ - 45.000€',
+            'Fiat' => '15.000€ - 35.000€',
+            'Toyota' => '18.000€ - 40.000€',
+            'Honda' => '20.000€ - 45.000€',
+            'Ford' => '18.000€ - 50.000€'
+        ];
+
+        return $priceRanges[$brand] ?? '20.000€ - 50.000€';
+    }
+
+    private function generateConversation(string $brand, string $model, string $category, string $description, array $aiAnalysis, int $totalModels): array
+    {
+        $confidence = $aiAnalysis['confidence'] ?? 0.7;
+        $confidenceText = $confidence > 0.8 ? 'molto sicuro' : ($confidence > 0.6 ? 'abbastanza sicuro' : 'moderatamente sicuro');
+
+        return [
+            "📝 **La tua richiesta:** *\"{$description}\"*",
+            "",
+            "🤖 **Analisi AI rilevata:**",
+            "• Marca: " . ($aiAnalysis['brand'] ?? 'Auto-rilevata'),
+            "• Categoria: {$category}",
+            "• Budget: " . ($aiAnalysis['budget_min'] ? number_format($aiAnalysis['budget_min']) . "€+" : 'Non specificato'),
+            "✅ **La mia raccomandazione: {$brand} {$model}**",
+            "",
+            "**💡 Perché questa scelta:**",
+            "• Analizzati {$totalModels} modelli {$brand} dal database",
+            "• Categoria {$category}",
+            "• Marca affidabile e ben recensita",
+            "• Tecnologia e design all'avanguardia",
+            "",
+            "**🚀 Prossimi passi raccomandati:**",
+            "1. 🌐 Visita il sito ufficiale per configurazioni dettagliate",
+            "2. 🗺️ Trova concessionari nella tua zona",
+            "3. 📞 Prenota un test drive gratuito",
+            "4. 💰 Richiedi preventivo personalizzato",
+            ""
+        ];
+    }
+
+    private function getOfficialSite(string $brand): string
+    {
+        $sites = [
+            'BMW' => 'https://www.bmw.it',
+            'Mercedes-Benz' => 'https://www.mercedes-benz.it',
+            'Audi' => 'https://www.audi.it',
+            'Volkswagen' => 'https://www.volkswagen.it',
+            'Fiat' => 'https://www.fiat.it',
+            'Tesla' => 'https://www.tesla.com/it',
+            'Toyota' => 'https://www.toyota.it',
+            'Honda' => 'https://www.honda.it',
+            'Ford' => 'https://www.ford.it',
+            'Ferrari' => 'https://www.ferrari.com',
+            'Porsche' => 'https://www.porsche.it',
+            'Lamborghini' => 'https://www.lamborghini.com',
+            'Volvo' => 'https://www.volvocars.com/it'
+        ];
+
+        return $sites[$brand] ?? "https://www.google.com/search?q=" . urlencode($brand . " italia");
+    }
+
+    private function getCarImage(string $brand, string $model): string
+    {
+        $queries = [
+            urlencode("{$brand} {$model} car exterior"),
+            urlencode("{$brand} {$model} automotive"),
+            urlencode("{$brand} car 2024"),
+            urlencode("luxury car {$brand}"),
+            urlencode("car automotive vehicle")
+        ];
+
+        foreach ($queries as $index => $query) {
+            $imageUrl = "https://source.unsplash.com/1200x800/?{$query}&" . time() . $index;
+            if ($index < 2) {
+                return $imageUrl;
+            }
+        }
+
+        return $this->getPlaceholderImage($brand, $model);
+    }
+
+    private function getPlaceholderImage(string $brand, string $model): string
+    {
+        $alternatives = [
+            "https://picsum.photos/1200/800?random=" . crc32($brand . $model),
+            "https://via.placeholder.com/1200x800/3498db/ffffff?text=" . urlencode($brand . " " . $model),
+            "https://source.unsplash.com/1200x800/?car,automotive&" . rand(1, 1000)
+        ];
+
+        return $alternatives[0];
+    }
+
+    private function generateDescription(string $brand, string $model, string $category, string $priceRange): string
+    {
+        $categoryDescriptions = [
+            'sportiva' => 'dalle prestazioni elevate e design aggressivo',
+            'suv' => 'versatile e spaziosa, perfetta per la famiglia',
+            'city' => 'compatta e agile, ideale per la città',
+            'berlina' => 'elegante e confortevole',
+            'elettrica' => 'ecologica e tecnologicamente avanzata',
+        ];
+
+        $desc = $categoryDescriptions[$category] ?? 'di alta qualità';
+
+        return "La {$brand} {$model} è una {$category} {$desc}, con un prezzo nella fascia {$priceRange}. Rappresenta un'eccellente combinazione di stile, tecnologia e affidabilità per soddisfare le tue esigenze di mobilità.";
+    }
+
+    private function askForMoreDetails(string $message = null): JsonResponse
+    {
+        return response()->json([
+            'ask_details' => true,
+            'message' => $message ?: "🚗 **Aiutami a trovarti l'auto perfetta!**\n\nSpecifica almeno:\n💰 **Budget** (es: 30.000€)\n🏷️ **Marca** (BMW, Audi, Fiat...)\n🎯 **Tipo** (sportiva, SUV, city car...)\n🎪 **Utilizzo** (città, famiglia, lavoro...)\n\n**Esempio completo:** 'BMW Serie 3 sportiva, budget 45k, per divertirmi nei weekend'",
+            'suggestions' => [
+                'BMW Serie 3 sportiva, budget 45k, per divertirmi',
+                'Audi Q3 SUV familiare, budget 40k, per la famiglia',
+                'Tesla Model 3, budget 50k, ecologica e moderna',
+                'Fiat 500 city car, budget 20k, per la città',
+                'Mercedes Classe C berlina, budget 35k, per lavoro'
+            ],
+        ]);
     }
 }
