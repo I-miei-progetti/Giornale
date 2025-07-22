@@ -75,27 +75,29 @@
                     <x-carousel />
                 </div>
                 {{-- Breaking news --}}
-                <div class="news-ticker m-3 overflow-hidden">
-                    <div class="ticker-brand mb-2 fw-bold d-flex justify-content-between align-items-center">
-                        📣 News dal Mondo delle Auto
-                        <span id="ticker-clock"></span>
-                    </div>
-                    <div class="ticker-wrapper">
-                        <div class="ticker-content" id="ticker-content">
-                            @php
-                                $news = \App\Http\Controllers\NewsController::fetchNews();
-                            @endphp
-                            @foreach ($news as $n)
-                                🚗 {{ $n['title'] }} •
-                            @endforeach
+                <div class="container-fluid px-4"> 
+                    <div class="news-ticker m-3 overflow-hidden">
+                        <div class="ticker-brand fw-bold d-flex justify-content-between align-items-center">
+                            📣 News dal Mondo delle Auto
+                            <span id="ticker-clock"></span>
+                        </div>
+                        <div class="ticker-wrapper">
+                            <div class="ticker-content" id="ticker-content">
+                                @php
+                                    $news = \App\Http\Controllers\NewsController::fetchNews();
+                                @endphp
+                                @foreach ($news as $n)
+                                    🚗 {{ $n['title'] }} •
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
-
                 {{-- end breaking news --}}
 
+
                 {{-- Configuratore Auto --}}
-                 @include('components.car-configurator')
+                @include('components.car-configurator')
                 {{-- fine configuratore --}}
             </div>
         </div>
@@ -144,6 +146,3 @@
     setInterval(updateClock, 1000);
     updateClock();
 </script>
-
-
-

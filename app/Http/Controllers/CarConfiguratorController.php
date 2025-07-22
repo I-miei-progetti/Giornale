@@ -346,7 +346,7 @@ class CarConfiguratorController extends Controller
     {
         return response()->json([
             'ask_details' => true,
-            'message' => $message ?: "🚗 **Aiutami a trovarti l'auto perfetta!**\n\nSpecifica almeno:\n💰 **Budget** (es: 30.000€)\n🏷️ **Marca** (BMW, Audi, Fiat...)\n🎯 **Tipo** (sportiva, SUV, city car...)\n🎪 **Utilizzo** (città, famiglia, lavoro...)\n\n**Esempio completo:** 'BMW Serie 3 sportiva, budget 45k, per divertirmi nei weekend'",
+            'message' => $message ?: "🚗 **Aiutami a trovarti l'auto perfetta!**\n\nSpecifica almeno:\n💰 **Budget** (es: 30.000€)\n🏷️ **Marca** (BMW, Audi, Fiat...)\n🎯 **Tipo** (sportiva, SUV, city car...)\n**Esempio completo:** 'BMW Serie 3 sportiva, budget 45k, per divertirmi nei weekend'",
             'suggestions' => [
                 'BMW Serie 3 sportiva, budget 45k, per divertirmi',
                 'Audi Q3 SUV familiare, budget 40k, per la famiglia',
